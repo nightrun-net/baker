@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
     <title>Baker Coiffeur</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
     <style>
-        /* ===== RENG Û MÎHENGÊN BINGEHÎN ===== */
         :root {
             --gold: #d3ac67;
             --gold-hover: #e5be7a;
@@ -19,6 +31,8 @@
             --bg-card: #111111;
             --text-light: #f5f5f5;
             --text-gray: #a0a0a0;
+            --danger: #ff5c5c;
+            --success: #4fd17a;
         }
 
         * {
@@ -36,18 +50,69 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .brand-text {
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .brand-text {
             font-family: 'Playfair Display', serif;
         }
 
-        /* ===== ANÎMASYON ===== */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        button,
+        input {
+            font-family: 'Poppins', sans-serif;
         }
-        .fade-up { animation: fadeInUp 1s ease forwards; }
 
-        /* ===== 1. HEADER (90% Width, Floating, Premium) ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .45;
+            }
+        }
+
+        .fade-up {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
         header {
             position: fixed;
             top: 20px;
@@ -55,16 +120,23 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 1200px;
+
             background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             padding: 12px 30px;
+
             z-index: 1000;
+
             border-radius: 50px;
             border: 1px solid rgba(211, 172, 103, 0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
 
         .header-logo {
@@ -87,7 +159,6 @@
             text-transform: uppercase;
         }
 
-        /* Nav Desktop */
         .desktop-nav ul {
             display: flex;
             gap: 30px;
@@ -102,9 +173,11 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .desktop-nav ul li a:hover { color: var(--gold); }
 
-        /* Hamburger Menu Icon */
+        .desktop-nav ul li a:hover {
+            color: var(--gold);
+        }
+
         .menu-toggle {
             display: none;
             color: var(--gold);
@@ -112,21 +185,34 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .menu-toggle:hover { transform: scale(1.1); }
 
-        /* ===== 2. FULL SCREEN MOBILE MENU (Modal Menu) ===== */
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* =========================
+           FULL SCREEN MOBILE MENU
+        ========================= */
+
         .full-screen-menu {
             position: fixed;
             inset: 0;
+
             background: rgba(5, 5, 5, 0.98);
+
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
             z-index: 9999;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
             opacity: 0;
             visibility: hidden;
+
             transition: all 0.4s ease;
         }
 
@@ -139,819 +225,4203 @@
             position: absolute;
             top: 30px;
             right: 30px;
+
             font-size: 40px;
             color: var(--gold);
+
             cursor: pointer;
+
             transition: 0.3s;
         }
-        .close-menu-btn:hover { transform: rotate(90deg); }
+
+        .close-menu-btn:hover {
+            transform: rotate(90deg);
+        }
 
         .fs-nav-links {
             list-style: none;
             text-align: center;
             margin-bottom: 30px;
         }
-        .fs-nav-links li { margin: 25px 0; }
+
+        .fs-nav-links li {
+            margin: 25px 0;
+        }
+
         .fs-nav-links li a {
             color: #fff;
             text-decoration: none;
+
             font-size: 32px;
             font-family: 'Playfair Display', serif;
+
             letter-spacing: 2px;
+
             transition: 0.3s;
         }
-        .fs-nav-links li a:hover { color: var(--gold); }
 
-        /* Bişkoka Zimanan Di Nav Menuya Mobîlê Da */
+        .fs-nav-links li a:hover {
+            color: var(--gold);
+        }
+
         .mobile-lang-btn {
             background: transparent;
             color: var(--gold);
+
             border: 1px solid var(--gold);
+
             padding: 12px 30px;
+
             border-radius: 50px;
+
             font-size: 18px;
+
             cursor: pointer;
+
             transition: 0.3s;
-            font-family: 'Poppins', sans-serif;
+
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .mobile-lang-btn:hover {
             background: var(--gold);
             color: #000;
         }
 
-        /* ===== 3. HERO SECTION (Logo Mezin Bû) ===== */
+        /* =========================
+           HERO
+        ========================= */
+
         .hero {
             height: 100vh;
+            min-height: 650px;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.7),
+                    rgba(0, 0, 0, 0.9)
+                ),
+                url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')
+                center/cover;
+
             padding: 0 20px;
         }
 
         .hero-center-img {
-            width: 240px; 
+            width: 240px;
             max-width: 80%;
+
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 20px rgba(211,172,103,0.5));
+
+            filter: drop-shadow(
+                0 0 20px rgba(211, 172, 103, 0.5)
+            );
+
             animation: fadeIn 1.5s ease;
         }
 
         .hero h1 {
             font-size: 42px;
             color: var(--gold);
+
             letter-spacing: 3px;
+
             margin-bottom: 10px;
+
             text-transform: uppercase;
         }
 
         .hero p {
             color: var(--text-gray);
+
             max-width: 550px;
+
             margin-bottom: 30px;
+
             font-size: 15px;
         }
 
         .btn-gold {
             display: inline-block;
+
             padding: 14px 40px;
+
             background: var(--gold);
             color: #000;
+
             text-decoration: none;
+
             font-weight: 600;
+
             border-radius: 50px;
+
             transition: 0.4s;
+
             font-size: 15px;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
-            box-shadow: 0 5px 20px rgba(211, 172, 103, 0.3);
+
+            box-shadow:
+                0 5px 20px rgba(211, 172, 103, 0.3);
         }
 
         .btn-gold:hover {
             background: var(--gold-hover);
+
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(211, 172, 103, 0.6);
+
+            box-shadow:
+                0 10px 30px rgba(211, 172, 103, 0.6);
         }
 
-        /* ===== 4. ABOUT US ===== */
-        .section-padding { padding: 90px 5%; }
-        
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section-padding {
+            padding: 90px 5%;
+        }
+
         .about-wrapper {
             text-align: center;
+
             max-width: 750px;
+
             margin: 0 auto;
+
             background: rgba(17, 17, 17, 0.6);
+
             padding: 40px;
+
             border-radius: 20px;
-            border: 1px solid rgba(211,172,103,0.15);
+
+            border:
+                1px solid rgba(211, 172, 103, 0.15);
+
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            -webkit-backdrop-filter: blur(10px);
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .section-title {
             font-size: 34px;
+
             color: var(--gold);
+
             margin-bottom: 15px;
+
             text-transform: uppercase;
+
             letter-spacing: 2px;
         }
 
         .about-text {
             color: var(--text-gray);
-            font-size: 15px; 
-            line-height: 1.6;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
             margin-bottom: 10px;
         }
 
-        /* ===== 5. PREMIUM CARDS ===== */
+        /* =========================
+           CARDS
+        ========================= */
+
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
             gap: 30px;
+
             max-width: 1200px;
+
             margin: 0 auto;
         }
 
         .premium-card {
             position: relative;
+
             height: 420px;
+
             border-radius: 20px;
+
             overflow: hidden;
+
             cursor: pointer;
-            border: 1px solid rgba(211,172,103,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+            border:
+                1px solid rgba(211, 172, 103, 0.2);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.5);
+
             transition: all 0.4s ease;
         }
 
         .premium-card:hover {
             transform: translateY(-10px);
+
             border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(211,172,103,0.3);
+
+            box-shadow:
+                0 20px 40px rgba(211, 172, 103, 0.3);
         }
 
         .premium-card img {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
+
             transition: transform 0.6s ease;
         }
-        .premium-card:hover img { transform: scale(1.1); }
+
+        .premium-card:hover img {
+            transform: scale(1.1);
+        }
 
         .card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(0, 0, 0, 0.95) 0%,
+                    rgba(0, 0, 0, 0.6) 40%,
+                    transparent 100%
+                );
+
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+
             padding: 30px 20px;
+
             text-align: center;
         }
 
         .card-overlay h3 {
             color: var(--gold);
+
             font-size: 24px;
+
             margin-bottom: 5px;
+
             letter-spacing: 1px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-        }
-        .card-overlay p {
-            color: #eee;
-            font-size: 14px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+
+            text-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.8);
         }
 
-        /* ===== 6. SMART BOOKING ===== */
+        .card-overlay p {
+            color: #eee;
+
+            font-size: 14px;
+
+            text-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        /* =========================
+           BOOKING
+        ========================= */
+
         .booking-container {
             max-width: 900px;
+
             margin: 0 auto;
+
             background: #0a0a0a;
+
             padding: 50px;
+
             border-radius: 25px;
-            border: 1px solid rgba(211,172,103,0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+
+            border:
+                1px solid rgba(211, 172, 103, 0.3);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.8);
         }
 
         .booking-header {
             text-align: center;
+
             margin-bottom: 30px;
+        }
+
+        .booking-subtitle {
+            color: #777;
+            font-size: 14px;
+            margin-top: 5px;
         }
 
         .step-title {
             font-size: 18px;
+
             color: #fff;
-            margin: 25px 0 15px 0;
-            border-bottom: 1px solid #222;
+
+            margin: 25px 0 15px;
+
+            border-bottom:
+                1px solid #222;
+
             padding-bottom: 8px;
+
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .step-title i { color: var(--gold); font-size: 16px; }
 
-        .opt-group { display: flex; flex-wrap: wrap; gap: 12px; }
+        .step-title i {
+            color: var(--gold);
+            font-size: 16px;
+        }
+
+        .opt-group {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 12px;
+        }
 
         .btn-opt {
             background: #151515;
+
             color: #ccc;
+
             border: 1px solid #333;
+
             padding: 12px 15px;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             flex: 1;
+
             min-width: 130px;
+
             text-align: center;
+
             transition: 0.3s;
-            font-family: 'Poppins', sans-serif;
+
             font-size: 14px;
         }
 
-        .btn-opt:hover { border-color: var(--gold); color: #fff; }
-        .btn-opt.active {
-            background: var(--gold);
-            color: #000;
-            font-weight: 600;
+        .btn-opt:hover {
             border-color: var(--gold);
-            box-shadow: 0 5px 15px rgba(211,172,103,0.3);
+            color: #fff;
         }
 
-        /* Time Box */
-        #time-step { display: none; animation: fadeInUp 0.5s ease; }
-        
+        .btn-opt.active {
+            background: var(--gold);
+
+            color: #000;
+
+            font-weight: 600;
+
+            border-color: var(--gold);
+
+            box-shadow:
+                0 5px 15px rgba(211, 172, 103, 0.3);
+        }
+
+        /* =========================
+           DATE
+        ========================= */
+
+        .date-wrapper {
+            position: relative;
+
+            max-width: 420px;
+        }
+
+        .date-wrapper i {
+            position: absolute;
+
+            left: 16px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--gold);
+
+            pointer-events: none;
+        }
+
+        .booking-date {
+            width: 100%;
+
+            background: #151515;
+
+            border: 1px solid #333;
+
+            color: #fff;
+
+            padding: 14px 16px 14px 48px;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+
+            color-scheme: dark;
+        }
+
+        .booking-date:hover,
+        .booking-date:focus {
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 3px rgba(211, 172, 103, 0.08);
+        }
+
+        /* =========================
+           TIME
+        ========================= */
+
+        #time-step {
+            display: none;
+
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .time-status {
+            margin-bottom: 15px;
+
+            color: #777;
+
+            font-size: 13px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-status i {
+            color: var(--gold);
+        }
+
         .time-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(85px, 1fr));
+
             gap: 10px;
         }
 
         .time-slot {
             background: #151515;
+
             color: #ccc;
+
             border: 1px solid #333;
-            padding: 10px;
+
+            padding: 11px;
+
             border-radius: 8px;
+
             text-align: center;
+
             cursor: pointer;
+
             transition: 0.3s;
+
             font-size: 14px;
+
+            user-select: none;
         }
-        .time-slot:not(.booked):hover { border-color: var(--gold); color: var(--gold); }
-        .time-slot.active { background: var(--gold); color: #000; font-weight: bold; border-color: var(--gold); }
-        .time-slot.booked { background: #000; color: #333; text-decoration: line-through; border-color: #111; pointer-events: none; }
+
+        .time-slot:not(.booked):not(.past):hover {
+            border-color: var(--gold);
+
+            color: var(--gold);
+
+            transform: translateY(-2px);
+        }
+
+        .time-slot.active {
+            background: var(--gold);
+
+            color: #000;
+
+            font-weight: bold;
+
+            border-color: var(--gold);
+
+            box-shadow:
+                0 4px 14px rgba(211, 172, 103, 0.25);
+        }
+
+        .time-slot.booked,
+        .time-slot.past {
+            background: #080808;
+
+            color: #414141;
+
+            text-decoration: line-through;
+
+            border-color: #171717;
+
+            pointer-events: none;
+
+            cursor: not-allowed;
+
+            opacity: .65;
+        }
+
+        .time-loading {
+            grid-column: 1 / -1;
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: var(--gold);
+        }
+
+        .time-loading i {
+            margin-right: 8px;
+        }
+
+        .booking-legend {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+
+            flex-wrap: wrap;
+
+            margin-top: 18px;
+
+            color: #666;
+
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+        }
+
+        .legend-free {
+            background: #555;
+        }
+
+        .legend-selected {
+            background: var(--gold);
+        }
+
+        .legend-booked {
+            background: #222;
+            border: 1px solid #444;
+        }
+
+        /* =========================
+           CONFIRM BUTTON
+        ========================= */
 
         .submit-btn {
             width: 100%;
+
             margin-top: 35px;
+
             padding: 16px;
+
             font-size: 16px;
-            background: #222; 
+
+            background: #222;
+
             color: #666;
+
             border: none;
+
             border-radius: 50px;
+
             font-weight: bold;
+
             cursor: not-allowed;
+
             transition: 0.4s;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .submit-btn.ready {
-            background: var(--gold);
-            color: #000;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(211,172,103,0.4);
-        }
-        .submit-btn.ready:hover {
-            background: #fff;
-            box-shadow: 0 8px 25px rgba(255,255,255,0.6);
         }
 
-        /* ===== 7. MODALÊN GIŞTÎ (Ziman Û Info) ===== */
+        .submit-btn.ready {
+            background: var(--gold);
+
+            color: #000;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 25px rgba(211, 172, 103, 0.4);
+        }
+
+        .submit-btn.ready:hover {
+            background: #fff;
+
+            box-shadow:
+                0 8px 25px rgba(255, 255, 255, 0.25);
+        }
+
+        /* =========================
+           MODALS
+        ========================= */
+
         .modal-overlay {
             position: fixed;
+
             inset: 0;
+
             background: rgba(0, 0, 0, 0.95);
+
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
             z-index: 10000;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             opacity: 0;
             visibility: hidden;
+
             transition: 0.4s;
+
+            padding: 20px;
         }
-        .modal-overlay.show { opacity: 1; visibility: visible; }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
 
         .modal-box {
             background: #111;
+
             padding: 35px;
+
             width: 90%;
             max-width: 400px;
+
             border-radius: 20px;
+
             border: 1px solid var(--gold);
-            box-shadow: 0 15px 50px rgba(211,172,103,0.2);
+
+            box-shadow:
+                0 15px 50px rgba(211, 172, 103, 0.2);
+
             text-align: center;
+
             position: relative;
+
             transform: scale(0.9);
+
             transition: 0.4s;
         }
-        .modal-overlay.show .modal-box { transform: scale(1); }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
 
         .close-modal-btn {
             position: absolute;
+
             top: 15px;
             right: 20px;
+
             color: #888;
+
             font-size: 24px;
+
             cursor: pointer;
+
             transition: 0.3s;
         }
-        .close-modal-btn:hover { color: var(--gold); }
 
-        .modal-box h2 { color: var(--gold); margin-bottom: 25px; font-size: 24px; }
-        
-        /* Modala Info (Nivîs di nav input de ne) */
-        .input-group { margin-bottom: 18px; text-align: left; }
-        .input-group label { display: none; } /* Label veşartî ne, em Placeholder bi kar tînin */
+        .close-modal-btn:hover {
+            color: var(--gold);
+        }
+
+        .modal-box h2 {
+            color: var(--gold);
+
+            margin-bottom: 25px;
+
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+
+            text-align: left;
+        }
+
         .input-group input {
             width: 100%;
-            padding: 12px;
+
+            padding: 13px 14px;
+
             background: #1a1a1a;
+
             border: 1px solid #333;
-            border-radius: 8px;
+
+            border-radius: 9px;
+
             color: #fff;
+
             font-size: 15px;
+
             outline: none;
-            font-family: 'Poppins', sans-serif;
+
             transition: 0.3s;
         }
-        .input-group input:focus { border-color: var(--gold); }
 
-        /* Modala Ziman */
+        .input-group input:focus {
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 3px rgba(211, 172, 103, .07);
+        }
+
+        .selected-booking-summary {
+            background: #171717;
+
+            border: 1px solid #242424;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+
+            text-align: left;
+
+            font-size: 13px;
+
+            color: #aaa;
+        }
+
+        .summary-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin: 5px 0;
+        }
+
+        .summary-row span:last-child {
+            color: #fff;
+            text-align: right;
+        }
+
         .lang-options button {
             display: block;
+
             width: 100%;
+
             background: #1a1a1a;
+
             color: #fff;
+
             border: 1px solid #333;
+
             padding: 15px;
+
             margin-bottom: 10px;
+
             border-radius: 10px;
+
             font-size: 16px;
+
             cursor: pointer;
+
             transition: 0.3s;
-            font-family: 'Poppins', sans-serif;
         }
-        .lang-options button:hover, .lang-options button.active {
+
+        .lang-options button:hover,
+        .lang-options button.active {
             background: var(--gold);
+
             color: #000;
+
             border-color: var(--gold);
+
             font-weight: bold;
         }
 
         .final-send-btn {
             width: 100%;
+
             padding: 15px;
+
             background: var(--gold);
+
             color: #000;
+
             font-size: 16px;
+
             font-weight: bold;
+
             border: none;
+
             border-radius: 50px;
+
             cursor: pointer;
+
             transition: 0.3s;
-            font-family: 'Poppins', sans-serif;
+
             margin-top: 10px;
         }
-        .final-send-btn:hover { background: #fff; }
 
-        /* ===== 8. FOOTER ===== */
+        .final-send-btn:hover:not(:disabled) {
+            background: #fff;
+        }
+
+        .final-send-btn:disabled {
+            cursor: not-allowed;
+
+            opacity: .7;
+        }
+
+        .form-message {
+            min-height: 20px;
+
+            margin-top: 13px;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+        .form-message.error {
+            color: var(--danger);
+        }
+
+        .form-message.success {
+            color: var(--success);
+        }
+
+        /* =========================
+           RESULT MODAL
+        ========================= */
+
+        .result-icon {
+            width: 75px;
+            height: 75px;
+
+            border-radius: 50%;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .result-icon.success {
+            color: var(--gold);
+
+            background:
+                rgba(211, 172, 103, .1);
+
+            border:
+                1px solid rgba(211, 172, 103, .3);
+        }
+
+        .result-icon.error {
+            color: var(--danger);
+
+            background:
+                rgba(255, 92, 92, .08);
+
+            border:
+                1px solid rgba(255, 92, 92, .25);
+        }
+
+        .result-text {
+            color: #999;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            white-space: pre-line;
+        }
+
+        .result-close {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border-radius: 50px;
+
+            border: none;
+
+            background: var(--gold);
+
+            color: #000;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
             background: #030303;
+
             padding: 60px 5% 30px;
+
             text-align: center;
+
             border-top: 1px solid #1a1a1a;
         }
-        .footer-logo-img { width: 120px; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(211,172,103,0.3)); }
-        
+
+        .footer-logo-img {
+            width: 120px;
+
+            margin-bottom: 25px;
+
+            filter:
+                drop-shadow(
+                    0 0 10px rgba(211, 172, 103, 0.3)
+                );
+        }
+
         .footer-contact {
             color: var(--text-gray);
+
             font-size: 15px;
+
             margin-bottom: 20px;
+
             display: flex;
             flex-direction: column;
+
             gap: 10px;
         }
+
         .footer-contact i {
             color: var(--gold);
+
             margin-right: 8px;
         }
 
-        .copyright { color: #444; font-size: 13px; margin-top: 30px; border-top: 1px solid #111; padding-top: 20px; }
+        .copyright {
+            color: #444;
 
-        /* Responsive Design */
+            font-size: 13px;
+
+            margin-top: 30px;
+
+            border-top: 1px solid #111;
+
+            padding-top: 20px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 900px) {
-            .desktop-nav { display: none; }
-            .menu-toggle { display: block; }
-            header { width: 95%; padding: 10px 20px; }
-            .hero-center-img { width: 200px; } /* Li ser mobîl jî mezin e */
-            .hero h1 { font-size: 36px; }
-            .section-padding { padding: 70px 5%; }
-            .booking-container { padding: 30px 15px; }
-            .about-wrapper { padding: 30px 15px; }
+            .desktop-nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            header {
+                width: 95%;
+
+                padding: 10px 20px;
+            }
+
+            .hero-center-img {
+                width: 200px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .section-padding {
+                padding: 70px 5%;
+            }
+
+            .booking-container {
+                padding: 30px 15px;
+            }
+
+            .about-wrapper {
+                padding: 30px 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                top: 12px;
+            }
+
+            .brand-text {
+                font-size: 20px;
+            }
+
+            .header-logo img {
+                height: 35px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .premium-card {
+                height: 380px;
+            }
+
+            .fs-nav-links li a {
+                font-size: 28px;
+            }
+
+            .time-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .modal-box {
+                width: 100%;
+
+                padding: 32px 20px;
+            }
+
+            .summary-row {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- 1. HEADER -->
+    <!-- =========================
+         HEADER
+    ========================== -->
+
     <header>
-        <a href="#" class="header-logo">
+
+        <a href="#hero" class="header-logo">
             <img src="/bi.png" alt="Baker">
-            <span class="brand-text">Baker</span>
+
+            <span class="brand-text">
+                Baker
+            </span>
         </a>
-        
-        <!-- Navbar Desktop -->
+
+
         <nav class="desktop-nav">
             <ul>
-                <li><a href="#hero" data-i18n="navHome">Startseite</a></li>
-                <li><a href="#about" data-i18n="navAbout">Über uns</a></li>
-                <li><a href="#services" data-i18n="navServices">Dienste</a></li>
-                <li><a href="#booking" data-i18n="navBook">Buchen</a></li>
+                <li>
+                    <a href="#hero" data-i18n="navHome">
+                        Startseite
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#about" data-i18n="navAbout">
+                        Über uns
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#services" data-i18n="navServices">
+                        Dienste
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#booking" data-i18n="navBook">
+                        Buchen
+                    </a>
+                </li>
             </ul>
         </nav>
 
-        <!-- Menu Icon bo Mobile -->
-        <div class="menu-toggle" onclick="openFullScreenMenu()">
+
+        <div
+            class="menu-toggle"
+            onclick="openFullScreenMenu()"
+        >
             <i class="fa-solid fa-bars-staggered"></i>
         </div>
+
     </header>
 
-    <!-- 2. FULL SCREEN MOBILE MENU -->
-    <div class="full-screen-menu" id="fsMenu">
-        <i class="fa-solid fa-xmark close-menu-btn" onclick="closeFullScreenMenu()"></i>
-        
+
+    <!-- =========================
+         MOBILE MENU
+    ========================== -->
+
+    <div
+        class="full-screen-menu"
+        id="fsMenu"
+    >
+
+        <i
+            class="fa-solid fa-xmark close-menu-btn"
+            onclick="closeFullScreenMenu()"
+        ></i>
+
+
         <ul class="fs-nav-links">
-            <li><a href="#hero" onclick="closeFullScreenMenu()" data-i18n="navHome">Startseite</a></li>
-            <li><a href="#about" onclick="closeFullScreenMenu()" data-i18n="navAbout">Über uns</a></li>
-            <li><a href="#services" onclick="closeFullScreenMenu()" data-i18n="navServices">Dienste</a></li>
-            <li><a href="#booking" onclick="closeFullScreenMenu()" data-i18n="navBook">Buchen</a></li>
+
+            <li>
+                <a
+                    href="#hero"
+                    onclick="closeFullScreenMenu()"
+                    data-i18n="navHome"
+                >
+                    Startseite
+                </a>
+            </li>
+
+
+            <li>
+                <a
+                    href="#about"
+                    onclick="closeFullScreenMenu()"
+                    data-i18n="navAbout"
+                >
+                    Über uns
+                </a>
+            </li>
+
+
+            <li>
+                <a
+                    href="#services"
+                    onclick="closeFullScreenMenu()"
+                    data-i18n="navServices"
+                >
+                    Dienste
+                </a>
+            </li>
+
+
+            <li>
+                <a
+                    href="#booking"
+                    onclick="closeFullScreenMenu()"
+                    data-i18n="navBook"
+                >
+                    Buchen
+                </a>
+            </li>
+
         </ul>
 
-        <!-- Bişkoka Zimanan Di Nav Menuya Mobîlê Da -->
-        <button class="mobile-lang-btn" onclick="closeFullScreenMenu(); openLangModal();">
+
+        <button
+            class="mobile-lang-btn"
+            onclick="closeFullScreenMenu(); openLangModal();"
+        >
+
             <i class="fa-solid fa-globe"></i>
-            <span data-i18n="langTitle">Sprache Wählen</span>
+
+            <span data-i18n="langTitle">
+                Sprache Wählen
+            </span>
+
         </button>
+
     </div>
 
-    <!-- MODALA ZIMANAN (Dema tu pêl bişkoka ziman dikî vedibe) -->
-    <div class="modal-overlay" id="langModal">
+
+    <!-- =========================
+         LANGUAGE MODAL
+    ========================== -->
+
+    <div
+        class="modal-overlay"
+        id="langModal"
+    >
+
         <div class="modal-box">
-            <i class="fa-solid fa-xmark close-modal-btn" onclick="closeLangModal()"></i>
-            <h2 data-i18n="langTitle">Sprache wählen</h2>
+
+            <i
+                class="fa-solid fa-xmark close-modal-btn"
+                onclick="closeLangModal()"
+            ></i>
+
+
+            <h2 data-i18n="langTitle">
+                Sprache wählen
+            </h2>
+
+
             <div class="lang-options">
-                <button onclick="setLang('de')" data-lang="de" class="lang-btn">Deutsch</button>
-                <button onclick="setLang('fr')" data-lang="fr" class="lang-btn">Français</button>
-                <button onclick="setLang('it')" data-lang="it" class="lang-btn">Italiano</button>
-                <button onclick="setLang('en')" data-lang="en" class="lang-btn">English</button>
+
+                <button
+                    onclick="setLang('de')"
+                    data-lang="de"
+                    class="lang-btn"
+                >
+                    Deutsch
+                </button>
+
+
+                <button
+                    onclick="setLang('fr')"
+                    data-lang="fr"
+                    class="lang-btn"
+                >
+                    Français
+                </button>
+
+
+                <button
+                    onclick="setLang('it')"
+                    data-lang="it"
+                    class="lang-btn"
+                >
+                    Italiano
+                </button>
+
+
+                <button
+                    onclick="setLang('en')"
+                    data-lang="en"
+                    class="lang-btn"
+                >
+                    English
+                </button>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- 3. HERO SECTION -->
-    <section class="hero" id="hero">
-        <img src="/bi.png" alt="Logo" class="hero-center-img fade-up">
-        
-        <h1 data-i18n="heroTitle" class="fade-up" style="animation-delay: 0.3s;">Premium Herrenfriseur</h1>
-        <p data-i18n="heroText" class="fade-up" style="animation-delay: 0.6s;">Erleben Sie die ultimative Pflege. Erstklassige Haarschnitte und klassische Rasuren.</p>
-        
-        <a href="#booking" data-i18n="heroBtn" class="btn-gold fade-up" style="animation-delay: 0.9s;">Termin Buchen</a>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section
+        class="hero"
+        id="hero"
+    >
+
+        <img
+            src="/bi.png"
+            alt="Logo"
+            class="hero-center-img fade-up"
+        >
+
+
+        <h1
+            data-i18n="heroTitle"
+            class="fade-up"
+            style="animation-delay: 0.3s;"
+        >
+            Premium Herrenfriseur
+        </h1>
+
+
+        <p
+            data-i18n="heroText"
+            class="fade-up"
+            style="animation-delay: 0.6s;"
+        >
+            Erleben Sie die ultimative Pflege.
+            Erstklassige Haarschnitte und klassische Rasuren.
+        </p>
+
+
+        <a
+            href="#booking"
+            data-i18n="heroBtn"
+            class="btn-gold fade-up"
+            style="animation-delay: 0.9s;"
+        >
+            Termin Buchen
+        </a>
+
     </section>
 
-    <!-- 4. ABOUT US -->
-    <section class="section-padding" id="about">
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section
+        class="section-padding"
+        id="about"
+    >
+
         <div class="about-wrapper fade-up">
-            <h2 class="section-title" data-i18n="aboutTitle">Über Uns</h2>
-            <p class="about-text" data-i18n="aboutText1">
-                Willkommen bei Baker Coiffeur. Wir sind Meister unseres Fachs und bieten Ihnen ein Erlebnis der Extraklasse. Bei uns geht es nicht nur um Haarschnitte, sondern um Kunst, Stil und Perfektion.
+
+            <h2
+                class="section-title"
+                data-i18n="aboutTitle"
+            >
+                Über Uns
+            </h2>
+
+
+            <p
+                class="about-text"
+                data-i18n="aboutText1"
+            >
+                Willkommen bei Baker Coiffeur.
+                Wir sind Meister unseres Fachs und bieten
+                Ihnen ein Erlebnis der Extraklasse.
+                Bei uns geht es nicht nur um Haarschnitte,
+                sondern um Kunst, Stil und Perfektion.
             </p>
-            <p class="about-text" data-i18n="aboutText2">
-                Unser Salon ist ein Ort der Entspannung. Setzen Sie sich, genießen Sie das Ambiente und lassen Sie uns Ihr Aussehen auf das nächste Level heben.
+
+
+            <p
+                class="about-text"
+                data-i18n="aboutText2"
+            >
+                Unser Salon ist ein Ort der Entspannung.
+                Setzen Sie sich, genießen Sie das Ambiente
+                und lassen Sie uns Ihr Aussehen auf das
+                nächste Level heben.
             </p>
+
         </div>
+
     </section>
 
-    <!-- 5. CARDS SECTION -->
-    <section class="section-padding" id="services" style="padding-top: 0;">
+
+    <!-- =========================
+         SERVICES
+    ========================== -->
+
+    <section
+        class="section-padding"
+        id="services"
+        style="padding-top: 0;"
+    >
+
         <div class="cards-grid fade-up">
+
+
             <div class="premium-card">
-                <img src="https://img.magnific.com/premium-photo/hairdresser-accessories-are-shelf-salon_114354-2639.jpg?semt=ais_hybrid&w=740&q=80" alt="Haircut">
+
+                <img
+                    src="https://media.istockphoto.com/id/522305300/photo/everything-should-be-perfect.jpg?s=612x612&w=0&k=20&c=ZvLytsrVEnGFexw7Bf6KkwyfPBCUPQPBhd_eCU28M-Y="
+                    alt="Haircut"
+                >
+
                 <div class="card-overlay">
-                    <h3 data-i18n="card1Title">Haarschnitt</h3>
-                    <p data-i18n="card1Desc">Präzision in jedem Detail.</p>
+
+                    <h3 data-i18n="card1Title">
+                        Haarschnitt
+                    </h3>
+
+                    <p data-i18n="card1Desc">
+                        Präzision in jedem Detail.
+                    </p>
+
                 </div>
+
             </div>
+
+
             <div class="premium-card">
-                <img src="https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-the-tools-of-a-barber-on-the-desktop-photo-image_2361156.jpg" alt="Beard">
+
+                <img
+                    src="https://cdn.prod.website-files.com/6672a2a0411fe821d4b8fd72/6a6f0187e6f68c68c76d4c6d_DSC00375.jpg"
+                    alt="Beard"
+                >
+
                 <div class="card-overlay">
-                    <h3 data-i18n="card2Title">Bartpflege</h3>
-                    <p data-i18n="card2Desc">Perfekte Konturen für den Gentleman.</p>
+
+                    <h3 data-i18n="card2Title">
+                        Bartpflege
+                    </h3>
+
+                    <p data-i18n="card2Desc">
+                        Perfekte Konturen für den Gentleman.
+                    </p>
+
                 </div>
+
             </div>
+
+
             <div class="premium-card">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/011/680/106/small/barbershop-tools-seamless-pattern-graphics-free-vector.jpg" alt="Shave">
+
+                <img
+                    src="https://static.vecteezy.com/system/resources/thumbnails/058/360/905/small/tools-and-equipment-arranged-neatly-on-a-barbers-workstation-for-grooming-tasks-photo.jpg"
+                    alt="Shave"
+                >
+
                 <div class="card-overlay">
-                    <h3 data-i18n="card3Title">Nassrasur</h3>
-                    <p data-i18n="card3Desc">Die traditionelle Kunst der Rasur.</p>
+
+                    <h3 data-i18n="card3Title">
+                        Nassrasur
+                    </h3>
+
+                    <p data-i18n="card3Desc">
+                        Die traditionelle Kunst der Rasur.
+                    </p>
+
                 </div>
+
             </div>
+
+
             <div class="premium-card">
-                <img src="https://plus.unsplash.com/premium_photo-1661380558859-40df8dd91dfd?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmFyYmVyJTIwdG9vbHN8ZW58MHx8MHx8fDA%3D" alt="VIP">
+
+                <img
+                    src="https://images.squarespace-cdn.com/content/v1/61d4d65027052536fff4e2bd/8f576286-5a57-4344-b12d-c3ee188548cb/handsome-man-cutting-beard-barber-shop-salon+%281%29.jpg"
+                    alt="VIP"
+                >
+
                 <div class="card-overlay">
-                    <h3 data-i18n="card4Title">VIP Paket</h3>
-                    <p data-i18n="card4Desc">Das volle Luxus-Erlebnis.</p>
+
+                    <h3 data-i18n="card4Title">
+                        VIP Paket
+                    </h3>
+
+                    <p data-i18n="card4Desc">
+                        Das volle Luxus-Erlebnis.
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- 6. SMART BOOKING -->
-    <section class="section-padding" id="booking" style="background: var(--bg-card);">
+
+    <!-- =========================
+         BOOKING
+    ========================== -->
+
+    <section
+        class="section-padding"
+        id="booking"
+        style="background: var(--bg-card);"
+    >
+
         <div class="booking-container fade-up">
+
+
             <div class="booking-header">
-                <h2 class="section-title" style="margin-bottom: 10px;" data-i18n="bookTitle">Termin Buchen</h2>
-            </div>
-            
-            <h3 class="step-title"><i class="fa-solid fa-user-tie"></i> <span data-i18n="step1">1. Friseur Wählen</span></h3>
-            <div class="opt-group">
-                <button class="btn-opt barber-btn" data-val="Baker">Borak</button>
-                <button class="btn-opt barber-btn" data-val="Ali">Omer</button>
-               
+
+                <h2
+                    class="section-title"
+                    style="margin-bottom: 10px;"
+                    data-i18n="bookTitle"
+                >
+                    Termin Buchen
+                </h2>
+
+
+                <p
+                    class="booking-subtitle"
+                    data-i18n="bookingSubtitle"
+                >
+                    Wählen Sie Ihren Friseur, Service, Datum und Uhrzeit.
+                </p>
+
             </div>
 
-            <h3 class="step-title"><i class="fa-solid fa-scissors"></i> <span data-i18n="step2">2. Service Wählen</span></h3>
+
+            <!-- BARBER -->
+
+            <h3 class="step-title">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+                <span data-i18n="step1">
+                    1. Friseur Wählen
+                </span>
+
+            </h3>
+
+
             <div class="opt-group">
-                <button class="btn-opt service-btn" data-val="Haarschnitt">
-                    <span data-i18n="serv1">Haarschnitt</span>
+
+                <button
+                    class="btn-opt barber-btn"
+                    data-val="Baker"
+                >
+                    Baker
                 </button>
-                <button class="btn-opt service-btn" data-val="Bart">
-                    <span data-i18n="serv2">Bart</span>
+
+
+                <button
+                    class="btn-opt barber-btn"
+                    data-val="Hasan"
+                >
+                    Hasan
                 </button>
-                <button class="btn-opt service-btn" data-val="Haar & Bart">
-                    <span data-i18n="serv3">Haar & Bart</span>
-                </button>
-                <button class="btn-opt service-btn" data-val="Alles">
-                    <span data-i18n="serv4">Alles</span>
-                </button>
+
             </div>
+
+
+            <!-- SERVICE -->
+
+            <h3 class="step-title">
+
+                <i class="fa-solid fa-scissors"></i>
+
+                <span data-i18n="step2">
+                    2. Service Wählen
+                </span>
+
+            </h3>
+
+
+            <div class="opt-group">
+
+                <button
+                    class="btn-opt service-btn"
+                    data-val="Haarschnitt"
+                >
+                    <span data-i18n="serv1">
+                        Haarschnitt (30 Fr.)
+                    </span>
+                </button>
+
+
+                <button
+                    class="btn-opt service-btn"
+                    data-val="Bart"
+                >
+                    <span data-i18n="serv2">
+                        Bart (20 Fr.)
+                    </span>
+                </button>
+
+
+                <button
+                    class="btn-opt service-btn"
+                    data-val="Haar & Bart"
+                >
+                    <span data-i18n="serv3">
+                        Haar & Bart (50 Fr.)
+                    </span>
+                </button>
+
+
+                <button
+                    class="btn-opt service-btn"
+                    data-val="Alles"
+                >
+                    <span data-i18n="serv4">
+                        Alles (60 Fr.)
+                    </span>
+                </button>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <h3 class="step-title">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span data-i18n="step3">
+                    3. Datum Wählen
+                </span>
+
+            </h3>
+
+
+            <div class="date-wrapper">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <input
+                    type="date"
+                    id="bookingDate"
+                    class="booking-date"
+                >
+
+            </div>
+
+
+            <!-- TIME -->
 
             <div id="time-step">
-                <h3 class="step-title"><i class="fa-solid fa-clock"></i> <span data-i18n="step3">3. Zeit Wählen</span></h3>
-                <div class="time-grid" id="time-container">
-                    <!-- JS Wexta Çêdike -->
+
+                <h3 class="step-title">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <span data-i18n="step4">
+                        4. Zeit Wählen
+                    </span>
+
+                </h3>
+
+
+                <div
+                    class="time-status"
+                    id="timeStatus"
+                >
+
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+
+                    <span data-i18n="loadingTimes">
+                        Verfügbare Zeiten werden geladen...
+                    </span>
+
                 </div>
+
+
+                <div
+                    class="time-grid"
+                    id="time-container"
+                >
+                </div>
+
+
+                <div class="booking-legend">
+
+                    <div class="legend-item">
+
+                        <span
+                            class="legend-dot legend-free"
+                        ></span>
+
+                        <span data-i18n="legendFree">
+                            Verfügbar
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span
+                            class="legend-dot legend-selected"
+                        ></span>
+
+                        <span data-i18n="legendSelected">
+                            Ausgewählt
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span
+                            class="legend-dot legend-booked"
+                        ></span>
+
+                        <span data-i18n="legendBooked">
+                            Bereits gebucht
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <button class="submit-btn" id="confirm-btn" data-i18n="btnConfirm">Bestätigen</button>
+
+            <button
+                class="submit-btn"
+                id="confirm-btn"
+                data-i18n="btnConfirm"
+            >
+                Bestätigen
+            </button>
+
         </div>
+
     </section>
 
-    <!-- 7. MODALA USER INFO (Nivîs tenê di nav Input de ne / Placeholder) -->
-    <div class="modal-overlay" id="infoModal">
+
+    <!-- =========================
+         CUSTOMER INFO MODAL
+    ========================== -->
+
+    <div
+        class="modal-overlay"
+        id="infoModal"
+    >
+
         <div class="modal-box">
-            <i class="fa-solid fa-xmark close-modal-btn" onclick="closeInfoModal()"></i>
-            <h2 data-i18n="modalInfoTitle">Ihre Daten</h2>
-            
-            <div class="input-group">
-                <!-- Data-i18n-placeholder hate zêdekirin daku Text rasterast bikeve nav Inputê -->
-                <input type="text" id="fName" data-i18n-placeholder="modalFirst" placeholder="Vorname">
-            </div>
-            <div class="input-group">
-                <input type="text" id="lName" data-i18n-placeholder="modalLast" placeholder="Nachname">
-            </div>
-            <div class="input-group">
-                <input type="tel" id="phone" data-i18n-placeholder="modalPhone" placeholder="Telefonnummer">
+
+            <i
+                class="fa-solid fa-xmark close-modal-btn"
+                onclick="closeInfoModal()"
+            ></i>
+
+
+            <h2 data-i18n="modalInfoTitle">
+                Ihre Daten
+            </h2>
+
+
+            <div
+                class="selected-booking-summary"
+                id="bookingSummary"
+            >
             </div>
 
-            <button class="final-send-btn" onclick="submitFinalBooking()" data-i18n="modalSend">Senden</button>
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="fName"
+                    maxlength="50"
+                    autocomplete="given-name"
+                    data-i18n-placeholder="modalFirst"
+                    placeholder="Vorname"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="lName"
+                    maxlength="50"
+                    autocomplete="family-name"
+                    data-i18n-placeholder="modalLast"
+                    placeholder="Nachname"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <input
+                    type="tel"
+                    id="phone"
+                    maxlength="30"
+                    autocomplete="tel"
+                    data-i18n-placeholder="modalPhone"
+                    placeholder="Telefonnummer"
+                >
+
+            </div>
+
+
+            <button
+                class="final-send-btn"
+                id="finalSendBtn"
+            >
+
+                <span data-i18n="modalSend">
+                    Senden
+                </span>
+
+            </button>
+
+
+            <div
+                class="form-message"
+                id="formMessage"
+            ></div>
+
         </div>
+
     </div>
 
-    <!-- 8. FOOTER -->
-    <footer>
-        <img src="/bi.png" alt="Baker Logo" class="footer-logo-img">
-        
-        <div class="footer-contact">
-            <p><i class="fa-solid fa-location-dot"></i> <span data-i18n="footerLoc">Kramgasse 79, 3011 Bern</span></p>
-            <p><i class="fa-solid fa-phone"></i> <span style="color: grey;">079 823 59 20 || 076 358 98 18</span></p>
+
+    <!-- =========================
+         RESULT MODAL
+    ========================== -->
+
+    <div
+        class="modal-overlay"
+        id="resultModal"
+    >
+
+        <div class="modal-box">
+
+            <div
+                class="result-icon success"
+                id="resultIcon"
+            >
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+
+            <h2 id="resultTitle">
+                Termin bestätigt
+            </h2>
+
+
+            <p
+                class="result-text"
+                id="resultText"
+            ></p>
+
+
+            <button
+                class="result-close"
+                onclick="closeResultModal()"
+                data-i18n="resultClose"
+            >
+                Schließen
+            </button>
+
         </div>
 
-        <p class="copyright">&copy; 2026 Baker Coiffeur</p>
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <img
+            src="/bi.png"
+            alt="Baker Logo"
+            class="footer-logo-img"
+        >
+
+
+        <div class="footer-contact">
+
+            <p>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span data-i18n="footerLoc">
+                    Kramgasse 79, 3011 Bern
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <i class="fa-solid fa-phone"></i>
+
+                <span style="color: grey;">
+                    079 823 59 20 || 076 358 98 18
+                </span>
+
+            </p>
+
+        </div>
+
+
+        <p class="copyright">
+            &copy; 2026 Baker Coiffeur
+        </p>
+
     </footer>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        // ==========================================
-        // 0. REFRESH & SCROLL TO TOP
-        // ==========================================
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
-        window.addEventListener('beforeunload', function() {
-            window.scrollTo(0, 0);
-        });
 
-        // ==========================================
-        // 1. ZIMAN Û TEKSTÊN JS
-        // ==========================================
+    <!-- =========================
+         FIREBASE + WEBSITE JS
+    ========================== -->
+
+    <script type="module">
+
+        /* =========================================
+           FIREBASE IMPORTS
+        ========================================= */
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            onValue,
+            update,
+            serverTimestamp,
+            get
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+
+        /* =========================================
+           YOUR FIREBASE CONFIG
+        ========================================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyBB8ABfNoJ5E7Aq6XCpm48HDZGgqepbWoY",
+
+            authDomain:
+                "baker-413fd.firebaseapp.com",
+
+            databaseURL:
+                "https://baker-413fd-default-rtdb.europe-west1.firebasedatabase.app",
+
+            projectId:
+                "baker-413fd",
+
+            storageBucket:
+                "baker-413fd.firebasestorage.app",
+
+            messagingSenderId:
+                "328498351396",
+
+            appId:
+                "1:328498351396:web:44640a47e332dbb6e437b1",
+
+            measurementId:
+                "G-XT8WNPY88G"
+        };
+
+
+        /* =========================================
+           INITIALIZE FIREBASE
+        ========================================= */
+
+        const firebaseApp =
+            initializeApp(firebaseConfig);
+
+
+        const database =
+            getDatabase(firebaseApp);
+
+
+        /* =========================================
+           SCROLL
+        ========================================= */
+
+        if ("scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
+
+
+        window.addEventListener(
+            "beforeunload",
+            () => {
+                window.scrollTo(0, 0);
+            }
+        );
+
+
+        /* =========================================
+           LANGUAGE DATA
+        ========================================= */
+
         const langData = {
+
             de: {
-                navHome: "Startseite", navAbout: "Über uns", navServices: "Dienste", navBook: "Buchen",
+
+                navHome: "Startseite",
+
+                navAbout: "Über uns",
+
+                navServices: "Dienste",
+
+                navBook: "Buchen",
+
                 langTitle: "Sprache Wählen",
-                heroTitle: "Premium Herrenfriseur", heroText: "Erleben Sie die ultimative Pflege. Erstklassige Haarschnitte und klassische Rasuren.", heroBtn: "Termin Buchen",
-                aboutTitle: "Über Uns", aboutText1: "Willkommen bei Baker Coiffeur. Wir sind Meister unseres Fachs und bieten Ihnen ein Erlebnis der Extraklasse. Bei uns geht es nicht nur um Haarschnitte, sondern um Kunst, Stil und Perfektion.", aboutText2: "Unser Salon ist ein Ort der Entspannung. Setzen Sie sich, genießen Sie das Ambiente und lassen Sie uns Ihr Aussehen auf das nächste Level heben.",
-                card1Title: "Haarschnitt", card1Desc: "Präzision in jedem Detail.", card2Title: "Bartpflege", card2Desc: "Perfekte Konturen für den Gentleman.", card3Title: "Nassrasur", card3Desc: "Die traditionelle Kunst der Rasur.", card4Title: "VIP Paket", card4Desc: "Das volle Luxus-Erlebnis.",
-                bookTitle: "Termin Buchen", step1: "1. Friseur Wählen", step2: "2. Service Wählen", step3: "3. Zeit Wählen",
-                serv1: "Haarschnitt (30 Fr.)", serv2: "Bart (20 Fr.)", serv3: "Haar & Bart (50 Fr.)", serv4: "Alles (60 Fr.)", btnConfirm: "Bestätigen",
-                modalInfoTitle: "Ihre Daten", modalFirst: "Vorname (First Name)", modalLast: "Nachname (Last Name)", modalPhone: "Telefonnummer (Phone)", modalSend: "Senden",
-                footerLoc: "Kramgasse 79, 3011 Bern"
+
+                heroTitle:
+                    "Premium Herrenfriseur",
+
+                heroText:
+                    "Erleben Sie die ultimative Pflege. Erstklassige Haarschnitte und klassische Rasuren.",
+
+                heroBtn:
+                    "Termin Buchen",
+
+                aboutTitle:
+                    "Über Uns",
+
+                aboutText1:
+                    "Willkommen bei Baker Coiffeur. Wir sind Meister unseres Fachs und bieten Ihnen ein Erlebnis der Extraklasse. Bei uns geht es nicht nur um Haarschnitte, sondern um Kunst, Stil und Perfektion.",
+
+                aboutText2:
+                    "Unser Salon ist ein Ort der Entspannung. Setzen Sie sich, genießen Sie das Ambiente und lassen Sie uns Ihr Aussehen auf das nächste Level heben.",
+
+                card1Title:
+                    "Haarschnitt",
+
+                card1Desc:
+                    "Präzision in jedem Detail.",
+
+                card2Title:
+                    "Bartpflege",
+
+                card2Desc:
+                    "Perfekte Konturen für den Gentleman.",
+
+                card3Title:
+                    "Nassrasur",
+
+                card3Desc:
+                    "Die traditionelle Kunst der Rasur.",
+
+                card4Title:
+                    "VIP Paket",
+
+                card4Desc:
+                    "Das volle Luxus-Erlebnis.",
+
+                bookTitle:
+                    "Termin Buchen",
+
+                bookingSubtitle:
+                    "Wählen Sie Ihren Friseur, Service, Datum und Uhrzeit.",
+
+                step1:
+                    "1. Friseur Wählen",
+
+                step2:
+                    "2. Service Wählen",
+
+                step3:
+                    "3. Datum Wählen",
+
+                step4:
+                    "4. Zeit Wählen",
+
+                serv1:
+                    "Haarschnitt (30 Fr.)",
+
+                serv2:
+                    "Bart (20 Fr.)",
+
+                serv3:
+                    "Haar & Bart (50 Fr.)",
+
+                serv4:
+                    "Alles (60 Fr.)",
+
+                btnConfirm:
+                    "Bestätigen",
+
+                loadingTimes:
+                    "Verfügbare Zeiten werden geladen...",
+
+                realtimeTimes:
+                    "Zeiten werden live mit Firebase synchronisiert.",
+
+                legendFree:
+                    "Verfügbar",
+
+                legendSelected:
+                    "Ausgewählt",
+
+                legendBooked:
+                    "Bereits gebucht",
+
+                modalInfoTitle:
+                    "Ihre Daten",
+
+                modalFirst:
+                    "Vorname",
+
+                modalLast:
+                    "Nachname",
+
+                modalPhone:
+                    "Telefonnummer",
+
+                modalSend:
+                    "Termin Buchen",
+
+                modalSending:
+                    "Wird gebucht...",
+
+                fillAll:
+                    "Bitte alle Felder ausfüllen.",
+
+                invalidPhone:
+                    "Bitte geben Sie eine gültige Telefonnummer ein.",
+
+                successTitle:
+                    "Termin bestätigt",
+
+                successMessage:
+                    "Ihr Termin wurde erfolgreich gebucht.",
+
+                slotTakenTitle:
+                    "Zeit nicht verfügbar",
+
+                slotTakenMessage:
+                    "Dieser Termin wurde gerade gebucht. Bitte wählen Sie eine andere Uhrzeit.",
+
+                firebaseErrorTitle:
+                    "Fehler",
+
+                firebaseErrorMessage:
+                    "Der Termin konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+
+                loadError:
+                    "Verfügbare Zeiten konnten nicht geladen werden.",
+
+                resultClose:
+                    "Schließen",
+
+                summaryBarber:
+                    "Friseur",
+
+                summaryService:
+                    "Service",
+
+                summaryDate:
+                    "Datum",
+
+                summaryTime:
+                    "Uhrzeit",
+
+                footerLoc:
+                    "Kramgasse 79, 3011 Bern"
             },
+
+
             en: {
-                navHome: "Home", navAbout: "About Us", navServices: "Services", navBook: "Book",
-                langTitle: "Select Language",
-                heroTitle: "Premium Men's Barber", heroText: "Experience ultimate grooming. Top-tier haircuts and classic shaves.", heroBtn: "Book Appointment",
-                aboutTitle: "About Us", aboutText1: "Welcome to Baker Coiffeur. We are masters of our craft offering a top-class experience. We focus on art, style, and perfection.", aboutText2: "Our salon is a place of relaxation. Sit back, enjoy the ambiance, and let us elevate your look.",
-                card1Title: "Haircut", card1Desc: "Precision in every detail.", card2Title: "Beard Care", card2Desc: "Perfect lines for the gentleman.", card3Title: "Wet Shave", card3Desc: "The traditional art of shaving.", card4Title: "VIP Package", card4Desc: "The ultimate luxury experience.",
-                bookTitle: "Book Appointment", step1: "1. Select Barber", step2: "2. Select Service", step3: "3. Select Time",
-                serv1: "Haircut (30 Fr.)", serv2: "Beard (20 Fr.)", serv3: "Hair & Beard (50 Fr.)", serv4: "All (60 Fr.)", btnConfirm: "Next Step",
-                modalInfoTitle: "Your Details", modalFirst: "First Name", modalLast: "Last Name", modalPhone: "Phone Number", modalSend: "Send",
-                footerLoc: "Kramgasse 79, 3011 Bern"
+
+                navHome:
+                    "Home",
+
+                navAbout:
+                    "About Us",
+
+                navServices:
+                    "Services",
+
+                navBook:
+                    "Book",
+
+                langTitle:
+                    "Select Language",
+
+                heroTitle:
+                    "Premium Men's Barber",
+
+                heroText:
+                    "Experience ultimate grooming. Top-tier haircuts and classic shaves.",
+
+                heroBtn:
+                    "Book Appointment",
+
+                aboutTitle:
+                    "About Us",
+
+                aboutText1:
+                    "Welcome to Baker Coiffeur. We are masters of our craft offering a top-class experience. We focus on art, style, and perfection.",
+
+                aboutText2:
+                    "Our salon is a place of relaxation. Sit back, enjoy the ambiance, and let us elevate your look.",
+
+                card1Title:
+                    "Haircut",
+
+                card1Desc:
+                    "Precision in every detail.",
+
+                card2Title:
+                    "Beard Care",
+
+                card2Desc:
+                    "Perfect lines for the gentleman.",
+
+                card3Title:
+                    "Wet Shave",
+
+                card3Desc:
+                    "The traditional art of shaving.",
+
+                card4Title:
+                    "VIP Package",
+
+                card4Desc:
+                    "The ultimate luxury experience.",
+
+                bookTitle:
+                    "Book Appointment",
+
+                bookingSubtitle:
+                    "Select your barber, service, date and time.",
+
+                step1:
+                    "1. Select Barber",
+
+                step2:
+                    "2. Select Service",
+
+                step3:
+                    "3. Select Date",
+
+                step4:
+                    "4. Select Time",
+
+                serv1:
+                    "Haircut (30 Fr.)",
+
+                serv2:
+                    "Beard (20 Fr.)",
+
+                serv3:
+                    "Hair & Beard (50 Fr.)",
+
+                serv4:
+                    "All (60 Fr.)",
+
+                btnConfirm:
+                    "Continue",
+
+                loadingTimes:
+                    "Loading available times...",
+
+                realtimeTimes:
+                    "Times are synchronized live with Firebase.",
+
+                legendFree:
+                    "Available",
+
+                legendSelected:
+                    "Selected",
+
+                legendBooked:
+                    "Already booked",
+
+                modalInfoTitle:
+                    "Your Details",
+
+                modalFirst:
+                    "First Name",
+
+                modalLast:
+                    "Last Name",
+
+                modalPhone:
+                    "Phone Number",
+
+                modalSend:
+                    "Book Appointment",
+
+                modalSending:
+                    "Booking...",
+
+                fillAll:
+                    "Please fill out all fields.",
+
+                invalidPhone:
+                    "Please enter a valid phone number.",
+
+                successTitle:
+                    "Booking Confirmed",
+
+                successMessage:
+                    "Your appointment has been booked successfully.",
+
+                slotTakenTitle:
+                    "Time Unavailable",
+
+                slotTakenMessage:
+                    "This appointment was just booked. Please select another time.",
+
+                firebaseErrorTitle:
+                    "Error",
+
+                firebaseErrorMessage:
+                    "The booking could not be saved. Please try again.",
+
+                loadError:
+                    "Available times could not be loaded.",
+
+                resultClose:
+                    "Close",
+
+                summaryBarber:
+                    "Barber",
+
+                summaryService:
+                    "Service",
+
+                summaryDate:
+                    "Date",
+
+                summaryTime:
+                    "Time",
+
+                footerLoc:
+                    "Kramgasse 79, 3011 Bern"
             },
+
+
             fr: {
-                navHome: "Accueil", navAbout: "À Propos", navServices: "Services", navBook: "Réserver",
-                langTitle: "Choisir la Langue",
-                heroTitle: "Barbier Premium", heroText: "Vivez le summum des soins. Coupes de premier ordre et rasages classiques.", heroBtn: "Réserver",
-                aboutTitle: "À Propos", aboutText1: "Bienvenue chez Baker Coiffeur. Nous sommes les maîtres de notre art. L'art, le style et la perfection sont nos priorités.", aboutText2: "Notre salon est un lieu de détente. Installez-vous et laissez-nous sublimer votre look.",
-                card1Title: "Coupe", card1Desc: "La précision dans chaque détail.", card2Title: "Barbe", card2Desc: "Contours parfaits pour le gentleman.", card3Title: "Rasage", card3Desc: "L'art traditionnel du rasage.", card4Title: "Forfait VIP", card4Desc: "L'expérience de luxe ultime.",
-                bookTitle: "Réserver", step1: "1. Choisir Coiffeur", step2: "2. Choisir Service", step3: "3. Choisir Heure",
-                serv1: "Coupe (30 Fr.)", serv2: "Barbe (20 Fr.)", serv3: "Coupe & Barbe (50 Fr.)", serv4: "Tout (60 Fr.)", btnConfirm: "Confirmer",
-                modalInfoTitle: "Vos Coordonnées", modalFirst: "Prénom", modalLast: "Nom", modalPhone: "Numéro de Tél.", modalSend: "Envoyer",
-                footerLoc: "Kramgasse 79, 3011 Bern"
+
+                navHome:
+                    "Accueil",
+
+                navAbout:
+                    "À Propos",
+
+                navServices:
+                    "Services",
+
+                navBook:
+                    "Réserver",
+
+                langTitle:
+                    "Choisir la Langue",
+
+                heroTitle:
+                    "Barbier Premium",
+
+                heroText:
+                    "Vivez le summum des soins. Coupes de premier ordre et rasages classiques.",
+
+                heroBtn:
+                    "Réserver",
+
+                aboutTitle:
+                    "À Propos",
+
+                aboutText1:
+                    "Bienvenue chez Baker Coiffeur. Nous sommes les maîtres de notre art. L'art, le style et la perfection sont nos priorités.",
+
+                aboutText2:
+                    "Notre salon est un lieu de détente. Installez-vous et laissez-nous sublimer votre look.",
+
+                card1Title:
+                    "Coupe",
+
+                card1Desc:
+                    "La précision dans chaque détail.",
+
+                card2Title:
+                    "Barbe",
+
+                card2Desc:
+                    "Contours parfaits pour le gentleman.",
+
+                card3Title:
+                    "Rasage",
+
+                card3Desc:
+                    "L'art traditionnel du rasage.",
+
+                card4Title:
+                    "Forfait VIP",
+
+                card4Desc:
+                    "L'expérience de luxe ultime.",
+
+                bookTitle:
+                    "Réserver",
+
+                bookingSubtitle:
+                    "Choisissez votre coiffeur, service, date et heure.",
+
+                step1:
+                    "1. Choisir Coiffeur",
+
+                step2:
+                    "2. Choisir Service",
+
+                step3:
+                    "3. Choisir Date",
+
+                step4:
+                    "4. Choisir Heure",
+
+                serv1:
+                    "Coupe (30 Fr.)",
+
+                serv2:
+                    "Barbe (20 Fr.)",
+
+                serv3:
+                    "Coupe & Barbe (50 Fr.)",
+
+                serv4:
+                    "Tout (60 Fr.)",
+
+                btnConfirm:
+                    "Continuer",
+
+                loadingTimes:
+                    "Chargement des horaires disponibles...",
+
+                realtimeTimes:
+                    "Les horaires sont synchronisés avec Firebase.",
+
+                legendFree:
+                    "Disponible",
+
+                legendSelected:
+                    "Sélectionné",
+
+                legendBooked:
+                    "Déjà réservé",
+
+                modalInfoTitle:
+                    "Vos Coordonnées",
+
+                modalFirst:
+                    "Prénom",
+
+                modalLast:
+                    "Nom",
+
+                modalPhone:
+                    "Numéro de Tél.",
+
+                modalSend:
+                    "Réserver",
+
+                modalSending:
+                    "Réservation...",
+
+                fillAll:
+                    "Veuillez remplir tous les champs.",
+
+                invalidPhone:
+                    "Veuillez saisir un numéro de téléphone valide.",
+
+                successTitle:
+                    "Réservation Confirmée",
+
+                successMessage:
+                    "Votre rendez-vous a été réservé avec succès.",
+
+                slotTakenTitle:
+                    "Horaire Indisponible",
+
+                slotTakenMessage:
+                    "Cet horaire vient d'être réservé. Veuillez en choisir un autre.",
+
+                firebaseErrorTitle:
+                    "Erreur",
+
+                firebaseErrorMessage:
+                    "La réservation n'a pas pu être enregistrée. Veuillez réessayer.",
+
+                loadError:
+                    "Impossible de charger les horaires disponibles.",
+
+                resultClose:
+                    "Fermer",
+
+                summaryBarber:
+                    "Coiffeur",
+
+                summaryService:
+                    "Service",
+
+                summaryDate:
+                    "Date",
+
+                summaryTime:
+                    "Heure",
+
+                footerLoc:
+                    "Kramgasse 79, 3011 Bern"
             },
+
+
             it: {
-                navHome: "Home", navAbout: "Chi Siamo", navServices: "Servizi", navBook: "Prenota",
-                langTitle: "Seleziona Lingua",
-                heroTitle: "Barbiere Premium", heroText: "Prova il massimo della cura. Tagli di prima classe e rasature classiche.", heroBtn: "Prenota",
-                aboutTitle: "Chi Siamo", aboutText1: "Benvenuti da Baker Coiffeur. Siamo maestri del nostro mestiere. Arte, stile e perfezione sono le nostre priorità.", aboutText2: "Il nostro salone è un luogo di relax. Siediti e lasciati trasformare.",
-                card1Title: "Taglio", card1Desc: "Precisione in ogni dettaglio.", card2Title: "Barba", card2Desc: "Contorni perfetti per il gentiluomo.", card3Title: "Rasatura", card3Desc: "L'arte tradizionale della rasatura.", card4Title: "Pacchetto VIP", card4Desc: "L'esperienza di lusso finale.",
-                bookTitle: "Prenota Appuntamento", step1: "1. Scegli Barbiere", step2: "2. Scegli Servizio", step3: "3. Scegli Ora",
-                serv1: "Taglio (30 Fr.)", serv2: "Barba (20 Fr.)", serv3: "Taglio & Barba (50 Fr.)", serv4: "Tutto (60 Fr.)", btnConfirm: "Conferma",
-                modalInfoTitle: "I Tuoi Dati", modalFirst: "Nome", modalLast: "Cognome", modalPhone: "Numero di Telefono", modalSend: "Invia",
-                footerLoc: "Kramgasse 79, 3011 Bern"
+
+                navHome:
+                    "Home",
+
+                navAbout:
+                    "Chi Siamo",
+
+                navServices:
+                    "Servizi",
+
+                navBook:
+                    "Prenota",
+
+                langTitle:
+                    "Seleziona Lingua",
+
+                heroTitle:
+                    "Barbiere Premium",
+
+                heroText:
+                    "Prova il massimo della cura. Tagli di prima classe e rasature classiche.",
+
+                heroBtn:
+                    "Prenota",
+
+                aboutTitle:
+                    "Chi Siamo",
+
+                aboutText1:
+                    "Benvenuti da Baker Coiffeur. Siamo maestri del nostro mestiere. Arte, stile e perfezione sono le nostre priorità.",
+
+                aboutText2:
+                    "Il nostro salone è un luogo di relax. Siediti e lasciati trasformare.",
+
+                card1Title:
+                    "Taglio",
+
+                card1Desc:
+                    "Precisione in ogni dettaglio.",
+
+                card2Title:
+                    "Barba",
+
+                card2Desc:
+                    "Contorni perfetti per il gentiluomo.",
+
+                card3Title:
+                    "Rasatura",
+
+                card3Desc:
+                    "L'arte tradizionale della rasatura.",
+
+                card4Title:
+                    "Pacchetto VIP",
+
+                card4Desc:
+                    "L'esperienza di lusso finale.",
+
+                bookTitle:
+                    "Prenota Appuntamento",
+
+                bookingSubtitle:
+                    "Scegli barbiere, servizio, data e ora.",
+
+                step1:
+                    "1. Scegli Barbiere",
+
+                step2:
+                    "2. Scegli Servizio",
+
+                step3:
+                    "3. Scegli Data",
+
+                step4:
+                    "4. Scegli Ora",
+
+                serv1:
+                    "Taglio (30 Fr.)",
+
+                serv2:
+                    "Barba (20 Fr.)",
+
+                serv3:
+                    "Taglio & Barba (50 Fr.)",
+
+                serv4:
+                    "Tutto (60 Fr.)",
+
+                btnConfirm:
+                    "Continua",
+
+                loadingTimes:
+                    "Caricamento orari disponibili...",
+
+                realtimeTimes:
+                    "Gli orari sono sincronizzati con Firebase.",
+
+                legendFree:
+                    "Disponibile",
+
+                legendSelected:
+                    "Selezionato",
+
+                legendBooked:
+                    "Già prenotato",
+
+                modalInfoTitle:
+                    "I Tuoi Dati",
+
+                modalFirst:
+                    "Nome",
+
+                modalLast:
+                    "Cognome",
+
+                modalPhone:
+                    "Numero di Telefono",
+
+                modalSend:
+                    "Prenota",
+
+                modalSending:
+                    "Prenotazione...",
+
+                fillAll:
+                    "Compila tutti i campi.",
+
+                invalidPhone:
+                    "Inserisci un numero di telefono valido.",
+
+                successTitle:
+                    "Prenotazione Confermata",
+
+                successMessage:
+                    "Il tuo appuntamento è stato prenotato con successo.",
+
+                slotTakenTitle:
+                    "Orario Non Disponibile",
+
+                slotTakenMessage:
+                    "Questo orario è appena stato prenotato. Selezionane un altro.",
+
+                firebaseErrorTitle:
+                    "Errore",
+
+                firebaseErrorMessage:
+                    "Impossibile salvare la prenotazione. Riprova.",
+
+                loadError:
+                    "Impossibile caricare gli orari.",
+
+                resultClose:
+                    "Chiudi",
+
+                summaryBarber:
+                    "Barbiere",
+
+                summaryService:
+                    "Servizio",
+
+                summaryDate:
+                    "Data",
+
+                summaryTime:
+                    "Ora",
+
+                footerLoc:
+                    "Kramgasse 79, 3011 Bern"
             }
+
         };
 
-        function openFullScreenMenu() { document.getElementById("fsMenu").classList.add("show"); }
-        function closeFullScreenMenu() { document.getElementById("fsMenu").classList.remove("show"); }
 
-        function openLangModal() { document.getElementById("langModal").classList.add("show"); }
-        function closeLangModal() { document.getElementById("langModal").classList.remove("show"); }
-        function closeInfoModal() { document.getElementById('infoModal').classList.remove('show'); }
+        /* =========================================
+           CURRENT LANGUAGE
+        ========================================= */
 
-        // Mîhenga Set Language
-        function setLang(langCode) {
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll(`.lang-btn[data-lang="${langCode}"]`).forEach(b => b.classList.add('active'));
+        let currentLang =
+            localStorage.getItem("bakerLang") || "de";
 
-            const elements = document.querySelectorAll("[data-i18n]");
-            elements.forEach(el => {
-                const key = el.getAttribute("data-i18n");
-                if (langData[langCode] && langData[langCode][key]) {
-                    el.innerHTML = langData[langCode][key];
-                }
-            });
 
-            const placeholders = document.querySelectorAll("[data-i18n-placeholder]");
-            placeholders.forEach(el => {
-                const key = el.getAttribute("data-i18n-placeholder");
-                if (langData[langCode] && langData[langCode][key]) {
-                    el.setAttribute("placeholder", langData[langCode][key]);
-                }
-            });
+        function t(key) {
 
-            // Gava Ziman Hatiye Guhertin di Rûpelê de, Tê Xistin Bîra Local Storage
-            localStorage.setItem('bakerLang', langCode);
-            closeLangModal();
+            return (
+                langData[currentLang]?.[key] ||
+                langData.de[key] ||
+                key
+            );
+
         }
 
-        // ==========================================
-        // NAXWEBER GIRTINA ZIMAN JI LOCAL STORAGE
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            let savedLang = localStorage.getItem('bakerLang') || 'de'; // Destpêk (Default)
-            setLang(savedLang);
-        });
 
-        // ==========================================
-        // 2. SMART BOOKING (ZÎREK)
-        // ==========================================
+        /* =========================================
+           MENU FUNCTIONS
+        ========================================= */
+
+        window.openFullScreenMenu = function () {
+
+            document
+                .getElementById("fsMenu")
+                .classList
+                .add("show");
+
+            document.body.classList.add("menu-open");
+
+        };
+
+
+        window.closeFullScreenMenu = function () {
+
+            document
+                .getElementById("fsMenu")
+                .classList
+                .remove("show");
+
+            document.body.classList.remove("menu-open");
+
+        };
+
+
+        window.openLangModal = function () {
+
+            document
+                .getElementById("langModal")
+                .classList
+                .add("show");
+
+        };
+
+
+        window.closeLangModal = function () {
+
+            document
+                .getElementById("langModal")
+                .classList
+                .remove("show");
+
+        };
+
+
+        window.closeInfoModal = function () {
+
+            document
+                .getElementById("infoModal")
+                .classList
+                .remove("show");
+
+            clearFormMessage();
+
+        };
+
+
+        window.closeResultModal = function () {
+
+            document
+                .getElementById("resultModal")
+                .classList
+                .remove("show");
+
+        };
+
+
+        /* =========================================
+           CHANGE LANGUAGE
+        ========================================= */
+
+        window.setLang = function (langCode) {
+
+            if (!langData[langCode]) {
+                return;
+            }
+
+
+            currentLang = langCode;
+
+
+            document
+                .querySelectorAll(".lang-btn")
+                .forEach(button => {
+
+                    button.classList.remove("active");
+
+                });
+
+
+            document
+                .querySelectorAll(
+                    `.lang-btn[data-lang="${langCode}"]`
+                )
+                .forEach(button => {
+
+                    button.classList.add("active");
+
+                });
+
+
+            document
+                .querySelectorAll("[data-i18n]")
+                .forEach(element => {
+
+                    const key =
+                        element.getAttribute("data-i18n");
+
+
+                    if (langData[langCode][key]) {
+
+                        element.textContent =
+                            langData[langCode][key];
+
+                    }
+
+                });
+
+
+            document
+                .querySelectorAll(
+                    "[data-i18n-placeholder]"
+                )
+                .forEach(element => {
+
+                    const key =
+                        element.getAttribute(
+                            "data-i18n-placeholder"
+                        );
+
+
+                    if (langData[langCode][key]) {
+
+                        element.placeholder =
+                            langData[langCode][key];
+
+                    }
+
+                });
+
+
+            localStorage.setItem(
+                "bakerLang",
+                langCode
+            );
+
+
+            window.closeLangModal();
+
+
+            if (
+                selectedBarber &&
+                selectedService &&
+                selectedDate
+            ) {
+
+                updateBookingSummary();
+
+            }
+
+        };
+
+
+        /* =========================================
+           BOOKING VARIABLES
+        ========================================= */
+
         let selectedBarber = null;
+
         let selectedService = null;
+
+        let selectedDate = null;
+
         let selectedTime = null;
-        const timeStep = document.getElementById('time-step');
-        const confirmBtn = document.getElementById('confirm-btn');
 
-        const schedules = {
-            Baker: ["10:30", "12:00", "15:00"], 
-            Ali: ["09:30", "11:30", "14:00"],   
-            Hasan: ["13:00", "16:00", "17:30"]  
-        };
-        const allTimes = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"];
+        let availabilityUnsubscribe = null;
 
-        function checkStatus() {
-            if (selectedBarber && selectedService) {
-                timeStep.style.display = 'block';
-                generateTimes();
-            }
-            if (selectedBarber && selectedService && selectedTime) {
-                confirmBtn.classList.add('ready');
-            } else {
-                confirmBtn.classList.remove('ready');
-            }
+        let latestBookedTimes = [];
+
+
+        const timeStep =
+            document.getElementById("time-step");
+
+
+        const timeContainer =
+            document.getElementById("time-container");
+
+
+        const timeStatus =
+            document.getElementById("timeStatus");
+
+
+        const confirmBtn =
+            document.getElementById("confirm-btn");
+
+
+        const bookingDate =
+            document.getElementById("bookingDate");
+
+
+        const finalSendBtn =
+            document.getElementById("finalSendBtn");
+
+
+        /* =========================================
+           SHOP TIMES
+        ========================================= */
+
+        const allTimes = [
+
+            "09:00",
+            "09:30",
+
+            "10:00",
+            "10:30",
+
+            "11:00",
+            "11:30",
+
+            "12:00",
+            "12:30",
+
+            "13:00",
+            "13:30",
+
+            "14:00",
+            "14:30",
+
+            "15:00",
+            "15:30",
+
+            "16:00",
+            "16:30",
+
+            "17:00",
+            "17:30",
+
+            "18:00",
+            "18:30"
+
+        ];
+
+
+        /* =========================================
+           DATE HELPERS
+        ========================================= */
+
+        function getZurichNow() {
+
+            const parts = {};
+
+            new Intl.DateTimeFormat(
+                "en-CA",
+                {
+                    timeZone: "Europe/Zurich",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hourCycle: "h23"
+                }
+            )
+                .formatToParts(new Date())
+                .forEach(part => {
+                    if (part.type !== "literal") {
+                        parts[part.type] = part.value;
+                    }
+                });
+
+            return {
+                date: `${parts.year}-${parts.month}-${parts.day}`,
+                minutes: Number(parts.hour) * 60 + Number(parts.minute)
+            };
+
         }
 
-        document.querySelectorAll('.barber-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.barber-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedBarber = btn.getAttribute('data-val');
-                selectedTime = null; 
-                checkStatus();
-            });
-        });
 
-        document.querySelectorAll('.service-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedService = btn.getAttribute('data-val');
-                checkStatus();
-            });
-        });
+        function timeToMinutes(time) {
 
-        function generateTimes() {
-            const container = document.getElementById('time-container');
-            container.innerHTML = ''; 
-            const booked = schedules[selectedBarber] || []; 
+            const [hour, minute] =
+                String(time)
+                    .split(":")
+                    .map(Number);
+
+            return hour * 60 + minute;
+
+        }
+
+
+        function isPastTime(date, time) {
+
+            const now = getZurichNow();
+
+            if (date < now.date) {
+                return true;
+            }
+
+            if (date > now.date) {
+                return false;
+            }
+
+            return timeToMinutes(time) < now.minutes;
+
+        }
+
+
+        function formatDate(dateString) {
+
+            if (!dateString) {
+                return "";
+            }
+
+
+            const parts =
+                dateString.split("-");
+
+
+            if (parts.length !== 3) {
+                return dateString;
+            }
+
+
+            const [
+                year,
+                month,
+                day
+            ] = parts;
+
+
+            if (currentLang === "en") {
+
+                return `${day}/${month}/${year}`;
+
+            }
+
+
+            return `${day}.${month}.${year}`;
+
+        }
+
+
+        function timeToKey(time) {
+
+            return time.replace(":", "-");
+
+        }
+
+
+        /* =========================================
+           SET TODAY
+        ========================================= */
+
+        const today =
+            getZurichNow().date;
+
+
+        bookingDate.min = today;
+
+        bookingDate.value = today;
+
+        selectedDate = today;
+
+
+        /* =========================================
+           CHECK BOOKING STATE
+        ========================================= */
+
+        function updateConfirmButton() {
+
+            const ready =
+
+                selectedBarber &&
+                selectedService &&
+                selectedDate &&
+                selectedTime;
+
+
+            confirmBtn.classList.toggle(
+                "ready",
+                Boolean(ready)
+            );
+
+        }
+
+
+        /* =========================================
+           BARBER BUTTON
+        ========================================= */
+
+        document
+            .querySelectorAll(".barber-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(".barber-btn")
+                            .forEach(item => {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            });
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        selectedBarber =
+                            button.dataset.val;
+
+
+                        selectedTime = null;
+
+
+                        updateConfirmButton();
+
+                        updateTimeSection();
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================
+           SERVICE BUTTON
+        ========================================= */
+
+        document
+            .querySelectorAll(".service-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(".service-btn")
+                            .forEach(item => {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            });
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        selectedService =
+                            button.dataset.val;
+
+
+                        selectedTime = null;
+
+
+                        updateConfirmButton();
+
+                        updateTimeSection();
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================
+           DATE CHANGE
+        ========================================= */
+
+        bookingDate.addEventListener(
+            "change",
+            () => {
+
+                selectedDate =
+                    bookingDate.value;
+
+
+                if (
+                    selectedDate &&
+                    selectedDate < today
+                ) {
+
+                    selectedDate = today;
+
+                    bookingDate.value = today;
+
+                }
+
+
+                selectedTime = null;
+
+
+                updateConfirmButton();
+
+                updateTimeSection();
+
+            }
+        );
+
+
+        /* =========================================
+           SHOW TIME SECTION
+        ========================================= */
+
+        function updateTimeSection() {
+
+            if (
+                selectedBarber &&
+                selectedService &&
+                selectedDate
+            ) {
+
+                timeStep.style.display =
+                    "block";
+
+
+                startRealtimeAvailability();
+
+            } else {
+
+                timeStep.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =========================================
+           REALTIME FIREBASE AVAILABILITY
+        ========================================= */
+
+        function startRealtimeAvailability() {
+
+            if (availabilityUnsubscribe) {
+
+                availabilityUnsubscribe();
+
+                availabilityUnsubscribe = null;
+
+            }
+
+
+            selectedTime = null;
+
+            updateConfirmButton();
+
+
+            timeContainer.innerHTML = `
+
+                <div class="time-loading">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    ${t("loadingTimes")}
+
+                </div>
+
+            `;
+
+
+            const availabilityReference =
+                ref(
+                    database,
+                    `availability/${selectedDate}/${selectedBarber}`
+                );
+
+
+            availabilityUnsubscribe =
+                onValue(
+
+                    availabilityReference,
+
+                    snapshot => {
+
+                        const data =
+                            snapshot.val() || {};
+
+
+                        const bookedTimes =
+                            Object.keys(data)
+                                .filter(
+                                    key =>
+                                        data[key] === true
+                                )
+                                .map(
+                                    key =>
+                                        key.replace("-", ":")
+                                );
+
+
+                        latestBookedTimes = bookedTimes;
+
+                        renderTimes(bookedTimes);
+
+
+                        timeStatus.innerHTML = `
+
+                            <i class="fa-solid fa-bolt"></i>
+
+                            <span>
+                                ${t("realtimeTimes")}
+                            </span>
+
+                        `;
+
+                    },
+
+                    error => {
+
+                        console.error(
+                            "Firebase availability error:",
+                            error
+                        );
+
+
+                        timeContainer.innerHTML = `
+
+                            <div class="time-loading"
+                                 style="color:#ff5c5c;">
+
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                                ${t("loadError")}
+
+                            </div>
+
+                        `;
+
+                    }
+
+                );
+
+        }
+
+
+        /* =========================================
+           RENDER TIME BUTTONS
+        ========================================= */
+
+        function renderTimes(bookedTimes) {
+
+            if (
+                selectedTime &&
+                (
+                    bookedTimes.includes(selectedTime) ||
+                    isPastTime(selectedDate, selectedTime)
+                )
+            ) {
+
+                selectedTime = null;
+
+                updateConfirmButton();
+
+            }
+
+
+            timeContainer.innerHTML = "";
+
 
             allTimes.forEach(time => {
-                const div = document.createElement('div');
-                div.className = 'time-slot';
-                div.innerText = time;
-                
-                if (booked.includes(time)) {
-                    div.classList.add('booked'); 
+
+                const slot =
+                    document.createElement("div");
+
+
+                const booked =
+                    bookedTimes.includes(time);
+
+
+                const past =
+                    isPastTime(selectedDate, time);
+
+
+                slot.className =
+                    "time-slot";
+
+
+                slot.textContent =
+                    time;
+
+
+                if (booked) {
+
+                    slot.classList.add(
+                        "booked"
+                    );
+
+                    slot.title =
+                        t("legendBooked");
+
+                } else if (past) {
+
+                    slot.classList.add(
+                        "past"
+                    );
+
+                    slot.title =
+                        currentLang === "de"
+                            ? "Vergangene Uhrzeit"
+                            : currentLang === "fr"
+                            ? "Heure passée"
+                            : currentLang === "it"
+                            ? "Orario passato"
+                            : "Past time";
+
                 } else {
-                    div.addEventListener('click', () => {
-                        document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('active'));
-                        div.classList.add('active');
-                        selectedTime = time;
-                        checkStatus();
-                    });
+
+                    if (
+                        selectedTime === time
+                    ) {
+
+                        slot.classList.add(
+                            "active"
+                        );
+
+                    }
+
+
+                    slot.addEventListener(
+                        "click",
+                        () => {
+
+                            document
+                                .querySelectorAll(".time-slot")
+                                .forEach(item => {
+
+                                    item.classList.remove(
+                                        "active"
+                                    );
+
+                                });
+
+
+                            slot.classList.add(
+                                "active"
+                            );
+
+
+                            selectedTime = time;
+
+
+                            updateConfirmButton();
+
+                        }
+                    );
+
                 }
-                container.appendChild(div);
+
+
+                timeContainer.appendChild(
+                    slot
+                );
+
             });
+
         }
 
-        // ==========================================
-        // 3. ŞANDINA FORMA DAWÎ
-        // ==========================================
-        confirmBtn.addEventListener('click', () => {
-            if (confirmBtn.classList.contains('ready')) {
-                document.getElementById('infoModal').classList.add('show');
-            }
-        });
 
-        function submitFinalBooking() {
-            const fName = document.getElementById('fName').value.trim();
-            const lName = document.getElementById('lName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+        /* =========================================
+           OPEN CUSTOMER MODAL
+        ========================================= */
 
-            if(fName !== "" && lName !== "" && phone !== "") {
-                alert(`SUCCESS! Booking Confirmed.\n\nName: ${fName} ${lName}\nPhone: ${phone}\nBarber: ${selectedBarber}\nService: ${selectedService}\nTime: ${selectedTime}`);
-                closeInfoModal();
-                window.location.reload(); 
-            } else {
-                alert("Bitte alle Felder ausfüllen! (Please fill out all fields!)");
+        confirmBtn.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !confirmBtn.classList.contains(
+                        "ready"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                updateBookingSummary();
+
+
+                document
+                    .getElementById("infoModal")
+                    .classList
+                    .add("show");
+
+
+                clearFormMessage();
+
             }
+        );
+
+
+        /* =========================================
+           BOOKING SUMMARY
+        ========================================= */
+
+        function updateBookingSummary() {
+
+            const summary =
+                document.getElementById(
+                    "bookingSummary"
+                );
+
+
+            summary.innerHTML = `
+
+                <div class="summary-row">
+
+                    <span>
+                        ${escapeHTML(
+                            t("summaryBarber")
+                        )}
+                    </span>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedBarber || "-"
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        ${escapeHTML(
+                            t("summaryService")
+                        )}
+                    </span>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedService || "-"
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        ${escapeHTML(
+                            t("summaryDate")
+                        )}
+                    </span>
+
+                    <span>
+                        ${escapeHTML(
+                            formatDate(selectedDate)
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        ${escapeHTML(
+                            t("summaryTime")
+                        )}
+                    </span>
+
+                    <span>
+                        ${escapeHTML(
+                            selectedTime || "-"
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
         }
+
+
+        /* =========================================
+           FINAL BOOKING
+        ========================================= */
+
+        finalSendBtn.addEventListener(
+            "click",
+            submitFinalBooking
+        );
+
+
+        async function submitFinalBooking() {
+
+            clearFormMessage();
+
+
+            const firstName =
+                document
+                    .getElementById("fName")
+                    .value
+                    .trim();
+
+
+            const lastName =
+                document
+                    .getElementById("lName")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
+
+
+            if (
+                !firstName ||
+                !lastName ||
+                !phone
+            ) {
+
+                showFormMessage(
+                    t("fillAll"),
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                phone.length < 7
+            ) {
+
+                showFormMessage(
+                    t("invalidPhone"),
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !selectedBarber ||
+                !selectedService ||
+                !selectedDate ||
+                !selectedTime
+            ) {
+
+                window.closeInfoModal();
+
+                return;
+
+            }
+
+
+            if (
+                isPastTime(
+                    selectedDate,
+                    selectedTime
+                )
+            ) {
+
+                window.closeInfoModal();
+
+                selectedTime = null;
+
+                updateConfirmButton();
+
+                renderTimes(latestBookedTimes);
+
+                return;
+
+            }
+
+
+            setBookingLoading(true);
+
+
+            const originalSelectedTime =
+                selectedTime;
+
+
+            const slotKey =
+                timeToKey(
+                    originalSelectedTime
+                );
+
+
+            try {
+
+                /*
+                 * First quick server check.
+                 * Security rules below are still the final protection.
+                 */
+
+                const slotReference =
+                    ref(
+                        database,
+                        `availability/${selectedDate}/${selectedBarber}/${slotKey}`
+                    );
+
+
+                const slotSnapshot =
+                    await get(slotReference);
+
+
+                if (
+                    slotSnapshot.exists()
+                ) {
+
+                    throw new Error(
+                        "SLOT_ALREADY_BOOKED"
+                    );
+
+                }
+
+
+                const bookingData = {
+
+                    firstName:
+                        firstName,
+
+                    lastName:
+                        lastName,
+
+                    phone:
+                        phone,
+
+                    barber:
+                        selectedBarber,
+
+                    service:
+                        selectedService,
+
+                    date:
+                        selectedDate,
+
+                    time:
+                        originalSelectedTime,
+
+                    slotKey:
+                        slotKey,
+
+                    language:
+                        currentLang,
+
+                    status:
+                        "confirmed",
+
+                    createdAt:
+                        serverTimestamp()
+
+                };
+
+
+                /*
+                 * MULTI LOCATION ATOMIC WRITE
+                 *
+                 * Either BOTH paths save
+                 * or BOTH paths fail.
+                 */
+
+                const updates = {};
+
+
+                updates[
+                    `availability/${selectedDate}/${selectedBarber}/${slotKey}`
+                ] = true;
+
+
+                updates[
+                    `bookings/${selectedDate}/${selectedBarber}/${slotKey}`
+                ] = bookingData;
+
+
+                await update(
+                    ref(database),
+                    updates
+                );
+
+
+                document
+                    .getElementById("fName")
+                    .value = "";
+
+
+                document
+                    .getElementById("lName")
+                    .value = "";
+
+
+                document
+                    .getElementById("phone")
+                    .value = "";
+
+
+                window.closeInfoModal();
+
+
+                showResultModal(
+
+                    "success",
+
+                    t("successTitle"),
+
+                    `${t("successMessage")}
+
+${t("summaryBarber")}: ${selectedBarber}
+${t("summaryService")}: ${selectedService}
+${t("summaryDate")}: ${formatDate(selectedDate)}
+${t("summaryTime")}: ${originalSelectedTime}`
+
+                );
+
+
+                selectedTime = null;
+
+
+                updateConfirmButton();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Firebase booking error:",
+                    error
+                );
+
+
+                const errorText =
+                    String(
+                        error?.message || error
+                    ).toLowerCase();
+
+
+                if (
+                    error.message ===
+                    "SLOT_ALREADY_BOOKED" ||
+
+                    errorText.includes(
+                        "permission_denied"
+                    ) ||
+
+                    errorText.includes(
+                        "permission denied"
+                    )
+                ) {
+
+                    window.closeInfoModal();
+
+
+                    selectedTime = null;
+
+                    updateConfirmButton();
+
+
+                    showResultModal(
+
+                        "error",
+
+                        t("slotTakenTitle"),
+
+                        t("slotTakenMessage")
+
+                    );
+
+
+                    startRealtimeAvailability();
+
+                }
+
+                else {
+
+                    showFormMessage(
+                        t("firebaseErrorMessage"),
+                        "error"
+                    );
+
+                }
+
+            }
+
+            finally {
+
+                setBookingLoading(false);
+
+            }
+
+        }
+
+
+        /* =========================================
+           BUTTON LOADING
+        ========================================= */
+
+        function setBookingLoading(loading) {
+
+            finalSendBtn.disabled =
+                loading;
+
+
+            if (loading) {
+
+                finalSendBtn.innerHTML = `
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    &nbsp;
+
+                    ${t("modalSending")}
+
+                `;
+
+            }
+
+            else {
+
+                finalSendBtn.innerHTML = `
+
+                    <span>
+                        ${t("modalSend")}
+                    </span>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================================
+           FORM MESSAGE
+        ========================================= */
+
+        function showFormMessage(
+            message,
+            type
+        ) {
+
+            const element =
+                document.getElementById(
+                    "formMessage"
+                );
+
+
+            element.className =
+                `form-message ${type}`;
+
+
+            element.textContent =
+                message;
+
+        }
+
+
+        function clearFormMessage() {
+
+            const element =
+                document.getElementById(
+                    "formMessage"
+                );
+
+
+            element.className =
+                "form-message";
+
+
+            element.textContent =
+                "";
+
+        }
+
+
+        /* =========================================
+           RESULT MODAL
+        ========================================= */
+
+        function showResultModal(
+            type,
+            title,
+            message
+        ) {
+
+            const modal =
+                document.getElementById(
+                    "resultModal"
+                );
+
+
+            const icon =
+                document.getElementById(
+                    "resultIcon"
+                );
+
+
+            const titleElement =
+                document.getElementById(
+                    "resultTitle"
+                );
+
+
+            const textElement =
+                document.getElementById(
+                    "resultText"
+                );
+
+
+            icon.className =
+                `result-icon ${type}`;
+
+
+            if (type === "success") {
+
+                icon.innerHTML =
+                    '<i class="fa-solid fa-check"></i>';
+
+            }
+
+            else {
+
+                icon.innerHTML =
+                    '<i class="fa-solid fa-xmark"></i>';
+
+            }
+
+
+            titleElement.textContent =
+                title;
+
+
+            textElement.textContent =
+                message;
+
+
+            modal.classList.add(
+                "show"
+            );
+
+        }
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =========================================
+           CLOSE MODALS WHEN CLICKING BACKGROUND
+        ========================================= */
+
+        document
+            .querySelectorAll(".modal-overlay")
+            .forEach(modal => {
+
+                modal.addEventListener(
+                    "click",
+                    event => {
+
+                        if (
+                            event.target === modal
+                        ) {
+
+                            modal.classList.remove(
+                                "show"
+                            );
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================
+           PAGE START
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                window.setLang(
+                    currentLang
+                );
+
+            }
+        );
+
+            setInterval(() => {
+            if (selectedBarber && selectedService && selectedDate) {
+                renderTimes(latestBookedTimes);
+            }
+        }, 30000);
+
     </script>
+
 </body>
+
 </html>
