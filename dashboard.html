@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060606">
+<title>Baker Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{--gold:#d3ac67;--bg:#060606;--side:#0a0a0a;--card:#101010;--border:#242424;--text:#f5f5f5;--muted:#777;--green:#55d789;--red:#ff6868}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg)}
+body{font-family:Poppins,sans-serif;color:var(--text);min-height:100dvh;overflow-x:hidden}
+button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}
+
+/* SIDEBAR */
+.sidebar{position:fixed;inset:0 auto 0 0;width:250px;background:var(--side);border-right:1px solid var(--border);padding:max(25px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;flex-direction:column;z-index:50;overflow:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:0 7px 25px}
+.brand img{width:44px;height:44px;object-fit:contain}
+.brand h2{font:700 21px 'Playfair Display';color:var(--gold)}
+.brand small{display:block;color:#555;font-size:8px;letter-spacing:1.2px;text-transform:uppercase}
+.close-side{display:none;margin-left:auto;width:38px;height:38px;border:1px solid #292929;border-radius:10px;background:#111;color:#888}
+.nav-title{font-size:9px;color:#444;letter-spacing:1.4px;text-transform:uppercase;padding:10px}
+.nav{width:100%;min-height:46px;border:0;border-radius:11px;background:transparent;color:#777;display:flex;align-items:center;gap:11px;padding:11px 13px;margin-bottom:5px;text-align:left}
+.nav:hover{background:#121212;color:#fff}.nav.active{background:#d3ac6718;color:var(--gold)}
+.nav i{width:18px}.count{margin-left:auto;background:#d3ac6720;color:var(--gold);border-radius:20px;padding:2px 7px;font-size:9px}
+.side-bottom{margin-top:auto;border-top:1px solid var(--border);padding:17px 7px 0}
+.admin-email{font-size:10px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout{width:100%;height:43px;margin-top:11px;border:1px solid #252525;border-radius:10px;background:#111;color:#888}
+.logout:hover{color:var(--red);border-color:#ff686844}
+
+/* MAIN */
+.main{margin-left:250px;width:calc(100% - 250px);padding:max(28px,env(safe-area-inset-top)) max(28px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) 28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:24px}
+.top-left,.top-actions{display:flex;align-items:center;gap:11px}
+.menu{display:none;width:43px;height:43px;border:1px solid #292929;border-radius:11px;background:#111;color:var(--gold)}
+.title small{display:block;color:var(--gold);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:3px}
+.title h1{font:600 clamp(24px,3vw,31px) 'Playfair Display'}
+.live{display:flex;align-items:center;gap:7px;border:1px solid #242424;border-radius:50px;padding:8px 12px;color:#666;font-size:10px}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px #55d789aa}
+.lang{width:42px;height:42px;border:1px solid #292929;border-radius:50%;background:#111;color:var(--gold)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.stat{background:linear-gradient(145deg,#111,#0b0b0b);border:1px solid var(--border);border-radius:16px;padding:18px;min-height:112px}
+.stat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
+.stat-head span{font-size:8px;color:#666;text-transform:uppercase;letter-spacing:.5px}
+.stat-icon{width:32px;height:32px;border-radius:9px;background:#d3ac6713;color:var(--gold);display:flex;align-items:center;justify-content:center}
+.stat-value{font:600 29px 'Playfair Display'}
+
+/* PANEL */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:17px 19px;border-bottom:1px solid var(--border)}
+.panel-head h2{font:600 20px 'Playfair Display';margin-bottom:2px}
+.panel-head p{font-size:10px;color:#5c5c5c}
+.search{position:relative;width:270px;max-width:100%}
+.search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#555;font-size:11px}
+.search input{width:100%;height:42px;background:#090909;border:1px solid #252525;border-radius:10px;color:#fff;outline:none;padding:0 12px 0 36px;font-size:16px}
+.search input:focus{border-color:var(--gold)}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;min-width:1000px;border-collapse:collapse}
+thead{background:#0b0b0b}
+th{padding:12px 15px;text-align:left;font-size:9px;color:#555;text-transform:uppercase;font-weight:500}
+td{padding:14px 15px;border-top:1px solid #191919;font-size:11px;color:#aaa}
+tbody tr:hover{background:#131313}.done-row{opacity:.68}
+.customer{display:flex;align-items:center;gap:10px}
+.avatar{width:35px;height:35px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#d3ac6715;border:1px solid #d3ac6725;color:var(--gold);font:600 14px 'Playfair Display'}
+.name{color:#eee;font-weight:500}.phone{font-size:9px;color:#555;margin-top:2px}
+.badge{display:inline-flex;padding:5px 9px;border-radius:50px;background:#d3ac6712;color:var(--gold);font-size:9px}
+.status{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:50px;font-size:9px}
+.confirmed{background:#55d78911;color:var(--green)}.done{background:#ffffff0b;color:#888}.done i{color:var(--green)}
+.time{color:#fff;font-weight:500}.done-row .time{text-decoration:line-through;color:#777}
+.actions{display:flex;gap:7px}
+.call,.delete{width:34px;height:34px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.call{border:1px solid #55d78933;background:#55d78910;color:var(--green)}.call:hover{background:var(--green);color:#000}
+.delete{border:1px solid #ff686833;background:#ff68680d;color:var(--red)}.delete:hover{background:var(--red);color:#fff}
+
+/* EMPTY */
+.empty{min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px}
+.empty-icon{width:58px;height:58px;border-radius:50%;background:#d3ac6710;color:var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.empty h3{font:600 18px 'Playfair Display';margin-bottom:5px}.empty p{font-size:10px;color:#555}
+
+/* MODAL + MOBILE OVERLAY */
+.overlay{position:fixed;inset:0;background:#000b;backdrop-filter:blur(5px);opacity:0;visibility:hidden;transition:.25s;z-index:40}.overlay.show{opacity:1;visibility:visible}
+.modal{position:fixed;inset:0;background:#000d;backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.25s;z-index:100}
+.modal.show{opacity:1;visibility:visible}
+.modal-box{width:100%;max-width:365px;background:#111;border:1px solid #d3ac6745;border-radius:19px;padding:23px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.modal-head h3{font:600 21px 'Playfair Display';color:var(--gold)}
+.modal-close{border:0;background:none;color:#888;font-size:20px}
+.lang-opt{width:100%;height:47px;margin-top:8px;border:1px solid #292929;border-radius:10px;background:#181818;color:#ddd}
+.lang-opt.active,.lang-opt:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+.delete-modal{text-align:center}.delete-big{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;background:#ff686810;color:var(--red);display:flex;align-items:center;justify-content:center;font-size:22px}
+.delete-modal h3{font:600 22px 'Playfair Display';margin-bottom:7px}.delete-modal p{font-size:11px;color:#777;line-height:1.6}
+.delete-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:19px}
+.cancel,.confirm-delete{height:44px;border-radius:10px}.cancel{border:1px solid #292929;background:#181818;color:#aaa}.confirm-delete{border:0;background:var(--red);color:#fff}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+body.side-open{overflow:hidden}
+.sidebar{width:min(300px,84vw);transform:translateX(-105%);transition:.25s;padding-left:max(18px,env(safe-area-inset-left))}
+.sidebar.open{transform:none}.close-side{display:block}
+.main{margin-left:0;width:100%;padding:max(17px,env(safe-area-inset-top)) max(15px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(15px,env(safe-area-inset-left))}
+.menu{display:block}
+}
+
+@media(max-width:700px){
+.live{display:none}.topbar{margin-bottom:18px}.title h1{font-size:24px}
+.stats{gap:7px;margin-bottom:15px}.stat{padding:12px;min-height:94px}.stat-head{margin-bottom:9px}.stat-head span{font-size:7px}.stat-icon{width:27px;height:27px;font-size:11px}.stat-value{font-size:23px}
+.panel-head{flex-direction:column;align-items:stretch;padding:15px 13px;gap:12px}.search{width:100%}
+.table-wrap{overflow:visible;padding:9px}table{min-width:0}thead{display:none}tbody{display:block}
+tbody tr{display:block;background:linear-gradient(145deg,#131313,#0d0d0d);border:1px solid #202020;border-radius:14px;padding:14px;margin-bottom:9px}
+td{display:flex;justify-content:space-between;align-items:center;gap:14px;border:0;border-bottom:1px solid #1d1d1d;padding:9px 0;text-align:right}
+td:first-child{display:block;padding-top:0;padding-bottom:13px}td:last-child{border-bottom:0;padding-bottom:0}
+td:not(:first-child)::before{content:attr(data-label);color:#555;font-size:9px;text-transform:uppercase;text-align:left}
+.customer{text-align:left}.avatar{width:41px;height:41px}.actions{margin-left:auto}
+}
+
+@media(max-width:380px){
+.main{padding-left:9px;padding-right:9px}.title h1{font-size:21px}.stats{grid-template-columns:1fr}.stat{min-height:82px}.stat-head span{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <img src="/bi.png" alt="Baker">
+        <div><h2>Baker</h2><small data-t="admin">Administration</small></div>
+        <button class="close-side" id="closeSide"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="nav-title" data-t="appointments">Appointments</div>
+
+    <button class="nav active" id="todayNav">
+        <i class="fa-regular fa-calendar-check"></i>
+        <span data-t="todayAppointments">Today's Appointments</span>
+        <span class="count" id="todayCount">0</span>
+    </button>
+
+    <button class="nav" id="allNav">
+        <i class="fa-solid fa-list"></i>
+        <span data-t="allRecords">All Records</span>
+        <span class="count" id="allCount">0</span>
+    </button>
+
+    <div class="side-bottom">
+        <div class="admin-email" id="adminEmail">Administrator</div>
+        <button class="logout" id="logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span data-t="logout">Logout</span>
+        </button>
+    </div>
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div class="top-left">
+            <button class="menu" id="menu"><i class="fa-solid fa-bars"></i></button>
+            <div class="title">
+                <small>Baker Coiffeur</small>
+                <h1 id="pageTitle">Today's Appointments</h1>
+            </div>
+        </div>
+
+        <div class="top-actions">
+            <div class="live"><span class="dot"></span><span data-t="live">Live Database</span></div>
+            <button class="lang" id="langBtn"><i class="fa-solid fa-globe"></i></button>
+        </div>
+    </div>
+
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-head"><span data-t="totalBookings">Total Bookings</span><div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div></div>
+            <div class="stat-value" id="total">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-head"><span data-t="todayRemaining">Today Remaining</span><div class="stat-icon"><i class="fa-regular fa-clock"></i></div></div>
+            <div class="stat-value" id="todayTotal">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-head"><span data-t="upcoming">Upcoming</span><div class="stat-icon"><i class="fa-solid fa-arrow-right"></i></div></div>
+            <div class="stat-value" id="upcoming">0</div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h2 id="recordsTitle">Today's Appointments</h2>
+                <p id="recordsSub">Appointments scheduled for today.</p>
+            </div>
+
+            <div class="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="search" type="search" autocomplete="off" data-ph="search" placeholder="Search appointments...">
+            </div>
+        </div>
+
+        <div id="records">
+            <div class="empty">
+                <div class="empty-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                <h3 data-t="loading">Loading appointments</h3>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- LANGUAGE -->
+<div class="modal" id="langModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3 data-t="language">Select Language</h3>
+            <button class="modal-close" id="closeLang"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <button class="lang-opt" data-lang="de">Deutsch</button>
+        <button class="lang-opt" data-lang="fr">Français</button>
+        <button class="lang-opt" data-lang="it">Italiano</button>
+        <button class="lang-opt" data-lang="en">English</button>
+    </div>
+</div>
+
+<!-- DELETE -->
+<div class="modal" id="deleteModal">
+    <div class="modal-box delete-modal">
+        <div class="delete-big"><i class="fa-regular fa-trash-can"></i></div>
+        <h3 data-t="deleteTitle">Delete Appointment?</h3>
+        <p data-t="deleteText">This appointment will be deleted and its time will become available again.</p>
+
+        <div class="delete-buttons">
+            <button class="cancel" id="cancelDelete" data-t="cancel">Cancel</button>
+            <button class="confirm-delete" id="confirmDelete" data-t="delete">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import{getDatabase,ref,get,onValue,update}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+const config={apiKey:"AIzaSyBB8ABfNoJ5E7Aq6XCpm48HDZGgqepbWoY",authDomain:"baker-413fd.firebaseapp.com",databaseURL:"https://baker-413fd-default-rtdb.europe-west1.firebasedatabase.app",projectId:"baker-413fd",storageBucket:"baker-413fd.firebasestorage.app",messagingSenderId:"328498351396",appId:"1:328498351396:web:44640a47e332dbb6e437b1",measurementId:"G-XT8WNPY88G"};
+
+const app=initializeApp(config),auth=getAuth(app),db=getDatabase(app),$=id=>document.getElementById(id);
+
+const L={
+de:{admin:"Administration",appointments:"Termine",todayAppointments:"Heutige Termine",allRecords:"Alle Einträge",logout:"Abmelden",live:"Live-Datenbank",totalBookings:"Alle Buchungen",todayRemaining:"Heute verbleibend",upcoming:"Kommende",todaySub:"Vergangene Termine werden automatisch als erledigt markiert.",allSub:"Alle Kundenbuchungen anzeigen und verwalten.",search:"Name, Telefon, Friseur suchen...",customer:"Kunde",barber:"Friseur",service:"Service",date:"Datum",time:"Uhrzeit",status:"Status",created:"Erstellt",actions:"Aktionen",call:"Anrufen",delete:"Löschen",loading:"Termine werden geladen",noneToday:"Keine Termine heute",noneTodayText:"Für heute wurden keine Termine gebucht.",none:"Keine Termine gefunden",noneText:"Keine Buchungen gefunden.",language:"Sprache wählen",deleteTitle:"Termin löschen?",deleteText:"Der Termin wird gelöscht und die Uhrzeit wieder verfügbar.",cancel:"Abbrechen",deleteError:"Termin konnte nicht gelöscht werden.",done:"Erledigt",confirmed:"Bestätigt"},
+en:{admin:"Administration",appointments:"Appointments",todayAppointments:"Today's Appointments",allRecords:"All Records",logout:"Logout",live:"Live Database",totalBookings:"Total Bookings",todayRemaining:"Today Remaining",upcoming:"Upcoming",todaySub:"Past appointments are automatically marked as done.",allSub:"View and manage all customer bookings.",search:"Search name, phone, barber...",customer:"Customer",barber:"Barber",service:"Service",date:"Date",time:"Time",status:"Status",created:"Created",actions:"Actions",call:"Call",delete:"Delete",loading:"Loading appointments",noneToday:"No appointments today",noneTodayText:"There are no appointments booked for today.",none:"No appointments found",noneText:"No customer bookings were found.",language:"Select Language",deleteTitle:"Delete Appointment?",deleteText:"The appointment will be deleted and its time will become available again.",cancel:"Cancel",deleteError:"Appointment could not be deleted.",done:"Done",confirmed:"Confirmed"},
+fr:{admin:"Administration",appointments:"Rendez-vous",todayAppointments:"Rendez-vous d'aujourd'hui",allRecords:"Tous les enregistrements",logout:"Déconnexion",live:"Base en direct",totalBookings:"Total réservations",todayRemaining:"Restant aujourd'hui",upcoming:"À venir",todaySub:"Les rendez-vous passés sont automatiquement terminés.",allSub:"Afficher et gérer toutes les réservations.",search:"Rechercher nom, téléphone, coiffeur...",customer:"Client",barber:"Coiffeur",service:"Service",date:"Date",time:"Heure",status:"Statut",created:"Créé",actions:"Actions",call:"Appeler",delete:"Supprimer",loading:"Chargement des rendez-vous",noneToday:"Aucun rendez-vous aujourd'hui",noneTodayText:"Aucun rendez-vous aujourd'hui.",none:"Aucun rendez-vous trouvé",noneText:"Aucune réservation trouvée.",language:"Choisir la langue",deleteTitle:"Supprimer le rendez-vous ?",deleteText:"Le rendez-vous sera supprimé et l'heure redeviendra disponible.",cancel:"Annuler",deleteError:"Impossible de supprimer.",done:"Terminé",confirmed:"Confirmé"},
+it:{admin:"Amministrazione",appointments:"Appuntamenti",todayAppointments:"Appuntamenti di oggi",allRecords:"Tutti i record",logout:"Esci",live:"Database Live",totalBookings:"Prenotazioni totali",todayRemaining:"Rimanenti oggi",upcoming:"Prossimi",todaySub:"Gli appuntamenti passati vengono automaticamente completati.",allSub:"Visualizza e gestisci tutte le prenotazioni.",search:"Cerca nome, telefono, barbiere...",customer:"Cliente",barber:"Barbiere",service:"Servizio",date:"Data",time:"Ora",status:"Stato",created:"Creato",actions:"Azioni",call:"Chiama",delete:"Elimina",loading:"Caricamento appuntamenti",noneToday:"Nessun appuntamento oggi",noneTodayText:"Nessun appuntamento prenotato oggi.",none:"Nessun appuntamento trovato",noneText:"Nessuna prenotazione trovata.",language:"Seleziona lingua",deleteTitle:"Eliminare appuntamento?",deleteText:"L'appuntamento sarà eliminato e l'orario tornerà disponibile.",cancel:"Annulla",deleteError:"Impossibile eliminare.",done:"Completato",confirmed:"Confermato"}
+};
+
+let lang=localStorage.getItem("bakerLang")||"de",view="today",records=[],started=false,toDelete=null;
+
+const t=k=>L[lang]?.[k]||L.de[k]||k;
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const phone=v=>String(v||"").replace(/[^\d+]/g,"");
+const timeMin=v=>{const[h=0,m=0]=String(v||"").split(":").map(Number);return h*60+m};
+
+function nowZurich(){
+    const p={};
+    new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Zurich",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).forEach(x=>{if(x.type!=="literal")p[x.type]=x.value});
+    return{date:`${p.year}-${p.month}-${p.day}`,min:+p.hour*60+(+p.minute)};
+}
+
+function isDone(r){
+    const n=nowZurich();
+    if(r.date<n.date)return true;
+    if(r.date>n.date)return false;
+    return timeMin(r.time)<n.min;
+}
+
+function formatDate(v){
+    const p=String(v||"").split("-");
+    return p.length===3?`${p[2]}.${p[1]}.${p[0]}`:v||"-";
+}
+
+function formatCreated(v){
+    if(!v)return"—";
+    try{
+        const locale=lang==="en"?"en-GB":lang==="fr"?"fr-CH":lang==="it"?"it-CH":"de-CH";
+        return new Intl.DateTimeFormat(locale,{timeZone:"Europe/Zurich",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(new Date(v));
+    }catch{return"—"}
+}
+
+function flatten(data){
+    const out=[];
+    if(!data)return out;
+    for(const[date,barbers]of Object.entries(data))
+        for(const[barber,slots]of Object.entries(barbers||{}))
+            for(const[slot,b]of Object.entries(slots||{}))
+                if(b&&typeof b==="object")out.push({...b,date:b.date||date,barber:b.barber||barber,time:b.time||slot.replace("-",":"),slotKey:b.slotKey||slot,path:`bookings/${date}/${barber}/${slot}`});
+    return out.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+}
+
+function setLang(v){
+    lang=L[v]?v:"de";
+    localStorage.setItem("bakerLang",lang);
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t));
+    document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));
+    document.querySelectorAll(".lang-opt").forEach(e=>e.classList.toggle("active",e.dataset.lang===lang));
+    $("langModal").classList.remove("show");
+    setView(view,false);
+}
+
+function updateStats(){
+    const d=nowZurich().date;
+    const today=records.filter(r=>r.date===d);
+    $("total").textContent=records.length;
+    $("todayTotal").textContent=today.filter(r=>!isDone(r)).length;
+    $("todayCount").textContent=today.filter(r=>!isDone(r)).length;
+    $("upcoming").textContent=records.filter(r=>!isDone(r)&&r.date>=d).length;
+    $("allCount").textContent=records.length;
+}
+
+function setView(v,clear=true){
+    view=v;
+    $("todayNav").classList.toggle("active",v==="today");
+    $("allNav").classList.toggle("active",v==="all");
+    $("pageTitle").textContent=v==="today"?t("todayAppointments"):t("allRecords");
+    $("recordsTitle").textContent=v==="today"?t("todayAppointments"):t("allRecords");
+    $("recordsSub").textContent=v==="today"?t("todaySub"):t("allSub");
+    if(clear)$("search").value="";
+    render();
+    closeSidebar();
+}
+
+function rowHTML(r){
+    const done=isDone(r),name=`${r.firstName||""} ${r.lastName||""}`.trim()||"-";
+    const initial=(r.firstName?.[0]||r.lastName?.[0]||"?").toUpperCase();
+    const status=done
+        ?`<span class="status done"><i class="fa-solid fa-check"></i>${esc(t("done"))}</span>`
+        :`<span class="status confirmed"><i class="fa-solid fa-circle-check"></i>${esc(t("confirmed"))}</span>`;
+    const del=view==="all"
+        ?`<button class="delete" data-delete="${esc(r.path)}"><i class="fa-regular fa-trash-can"></i></button>`
+        :"";
+
+    return`
+    <tr class="${done?"done-row":""}">
+        <td data-label="${t("customer")}"><div class="customer"><div class="avatar">${esc(initial)}</div><div><div class="name">${esc(name)}</div><div class="phone">${esc(r.phone)}</div></div></div></td>
+        <td data-label="${t("barber")}"><span class="badge">${esc(r.barber)}</span></td>
+        <td data-label="${t("service")}">${esc(r.service)}</td>
+        <td data-label="${t("date")}">${esc(formatDate(r.date))}</td>
+        <td data-label="${t("time")}"><span class="time">${esc(r.time)}</span></td>
+        <td data-label="${t("status")}">${status}</td>
+        <td data-label="${t("created")}">${esc(formatCreated(r.createdAt))}</td>
+        <td data-label="${t("actions")}"><div class="actions"><a class="call" href="tel:${esc(phone(r.phone))}"><i class="fa-solid fa-phone"></i></a>${del}</div></td>
+    </tr>`;
+}
+
+function render(){
+    const d=nowZurich().date,q=$("search").value.trim().toLowerCase();
+    let list=view==="today"?records.filter(r=>r.date===d):[...records];
+
+    if(q)list=list.filter(r=>`${r.firstName} ${r.lastName} ${r.phone} ${r.barber} ${r.service} ${r.date} ${r.time}`.toLowerCase().includes(q));
+    if(view==="today")list.sort((a,b)=>timeMin(a.time)-timeMin(b.time));
+
+    if(!list.length){
+        $("records").innerHTML=`<div class="empty"><div class="empty-icon"><i class="fa-regular fa-calendar-xmark"></i></div><h3>${esc(view==="today"?t("noneToday"):t("none"))}</h3><p>${esc(view==="today"?t("noneTodayText"):t("noneText"))}</p></div>`;
+        return;
+    }
+
+    $("records").innerHTML=`
+    <div class="table-wrap">
+        <table>
+            <thead><tr>
+                <th>${t("customer")}</th><th>${t("barber")}</th><th>${t("service")}</th><th>${t("date")}</th>
+                <th>${t("time")}</th><th>${t("status")}</th><th>${t("created")}</th><th>${t("actions")}</th>
+            </tr></thead>
+            <tbody>${list.map(rowHTML).join("")}</tbody>
+        </table>
+    </div>`;
+
+    document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>openDelete(b.dataset.delete));
+}
+
+function openDelete(path){
+    toDelete=records.find(r=>r.path===path)||null;
+    if(toDelete)$("deleteModal").classList.add("show");
+}
+
+async function removeBooking(){
+    if(!toDelete)return;
+    const u={};
+    u[toDelete.path]=null;
+    u[`availability/${toDelete.date}/${toDelete.barber}/${toDelete.slotKey}`]=null;
+
+    $("confirmDelete").disabled=true;
+
+    try{
+        await update(ref(db),u);
+        $("deleteModal").classList.remove("show");
+        toDelete=null;
+    }catch(e){
+        console.error("DELETE ERROR:",e);
+        alert(`${t("deleteError")}\n${e.code||""}\n${e.message||""}`);
+    }finally{
+        $("confirmDelete").disabled=false;
+    }
+}
+
+function openSidebar(){
+    $("sidebar").classList.add("open");
+    $("overlay").classList.add("show");
+    document.body.classList.add("side-open");
+}
+
+function closeSidebar(){
+    $("sidebar").classList.remove("open");
+    $("overlay").classList.remove("show");
+    document.body.classList.remove("side-open");
+}
+
+onAuthStateChanged(auth,async user=>{
+    if(!user)return location.replace("login.html");
+
+    try{
+        const admin=await get(ref(db,`admins/${user.uid}`));
+
+        if(!admin.exists()||admin.val()!==true){
+            await signOut(auth);
+            return location.replace("login.html");
+        }
+
+        $("adminEmail").textContent=user.email||"Administrator";
+
+        if(!started){
+            started=true;
+            onValue(ref(db,"bookings"),snap=>{
+                records=flatten(snap.val());
+                updateStats();
+                render();
+            },console.error);
+        }
+    }catch(e){
+        console.error(e);
+        await signOut(auth);
+        location.replace("login.html");
+    }
+});
+
+/* EVENTS */
+$("todayNav").onclick=()=>setView("today");
+$("allNav").onclick=()=>setView("all");
+$("search").oninput=render;
+$("menu").onclick=openSidebar;
+$("closeSide").onclick=closeSidebar;
+$("overlay").onclick=closeSidebar;
+
+$("logout").onclick=async()=>{
+    await signOut(auth);
+    location.replace("login.html");
+};
+
+$("langBtn").onclick=()=>$("langModal").classList.add("show");
+$("closeLang").onclick=()=>$("langModal").classList.remove("show");
+document.querySelectorAll(".lang-opt").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+$("cancelDelete").onclick=()=>{
+    $("deleteModal").classList.remove("show");
+    toDelete=null;
+};
+
+$("confirmDelete").onclick=removeBooking;
+
+$("langModal").onclick=e=>{
+    if(e.target===$("langModal"))$("langModal").classList.remove("show");
+};
+
+$("deleteModal").onclick=e=>{
+    if(e.target===$("deleteModal"))$("deleteModal").classList.remove("show");
+};
+
+window.addEventListener("resize",()=>{
+    if(innerWidth>900)closeSidebar();
+});
+
+/* Refresh Done / counts automatically */
+setInterval(()=>{
+    updateStats();
+    render();
+},30000);
+
+setLang(lang);
+</script>
+
+</body>
+</html>

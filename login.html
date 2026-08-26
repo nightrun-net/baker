@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>Baker Admin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{--gold:#d3ac67;--gold2:#ebca86;--bg:#050505;--card:#101010;--input:#181818;--border:#292929;--text:#f5f5f5;--muted:#777;--danger:#ff6868;--success:#5bd989}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg)}
+body{min-height:100vh;min-height:100dvh;font-family:Poppins,sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;padding:max(18px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));background:radial-gradient(circle at 10% 10%,rgba(211,172,103,.1),transparent 32%),#050505}
+button,input{font:inherit}
+button{touch-action:manipulation}
+
+.login{width:100%;max-width:1040px;min-height:610px;display:grid;grid-template-columns:1.05fr .95fr;background:#0b0b0b;border:1px solid rgba(211,172,103,.2);border-radius:30px;overflow:hidden;box-shadow:0 30px 80px #000a}
+
+.visual{position:relative;padding:50px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(#0007,#000e),url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1200&q=85') center/cover}
+.logo{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.logo img{width:55px;height:55px;object-fit:contain}
+.logo strong{font:700 27px 'Playfair Display';color:var(--gold);letter-spacing:2px}
+.visual-content{position:relative;z-index:1}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #d3ac6744;border-radius:50px;padding:8px 14px;color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+.visual h1{font:700 clamp(42px,5vw,62px) 'Playfair Display';line-height:1.07;margin-bottom:18px}
+.visual h1 span{color:var(--gold)}
+.visual p{max-width:420px;color:#aaa;font-size:13px;line-height:1.8}
+.copy{position:relative;z-index:1;color:#555;font-size:11px}
+
+.form-side{position:relative;padding:55px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(145deg,#101010,#080808)}
+.mobile-logo{display:none}
+.lang-btn{position:absolute;top:24px;right:24px;width:42px;height:42px;border:1px solid #292929;border-radius:50%;background:#121212;color:var(--gold);cursor:pointer}
+.lang-btn:hover{border-color:var(--gold)}
+
+.heading{margin-bottom:30px}
+.heading small{display:block;color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.heading h2{font:600 35px 'Playfair Display';margin-bottom:8px}
+.heading p{color:var(--muted);font-size:12px}
+
+.group{margin-bottom:17px}
+.group label{display:block;font-size:11px;color:#999;margin-bottom:7px}
+.input{position:relative}
+.input>i:first-child{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#666}
+.input input{width:100%;height:52px;border:1px solid var(--border);border-radius:12px;background:var(--input);color:#fff;padding:0 48px 0 44px;outline:none;font-size:16px}
+.input input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d3ac6710}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#666;cursor:pointer}
+.remember{display:flex;align-items:center;gap:8px;color:#777;font-size:11px;margin:4px 0 22px;min-height:36px}
+.remember input{accent-color:var(--gold)}
+
+.submit{width:100%;height:52px;border:0;border-radius:50px;background:var(--gold);color:#050505;font-weight:600;cursor:pointer;transition:.25s}
+.submit:hover:not(:disabled){background:var(--gold2);transform:translateY(-2px)}
+.submit:disabled{opacity:.6}
+.message{min-height:22px;text-align:center;font-size:11px;margin-top:14px}
+.error{color:var(--danger)}.success{color:var(--success)}
+
+.secure{margin-top:24px;border-top:1px solid #1d1d1d;padding-top:20px;color:#555;font-size:10px;display:flex;gap:8px;align-items:center}
+.secure i{color:var(--gold)}
+
+.modal{position:fixed;inset:0;background:#000d;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.25s;z-index:100}
+.modal.show{opacity:1;visibility:visible}
+.modal-box{width:100%;max-width:360px;background:#111;border:1px solid #d3ac6755;border-radius:20px;padding:25px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-head h3{font:600 22px 'Playfair Display';color:var(--gold)}
+.close{border:0;background:none;color:#888;font-size:20px;cursor:pointer}
+.lang-option{width:100%;height:48px;margin-top:9px;border:1px solid #292929;border-radius:11px;background:#181818;color:#ddd;cursor:pointer}
+.lang-option.active,.lang-option:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+
+@media(max-width:760px){
+body{align-items:flex-start;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+.login{display:block;max-width:520px;min-height:calc(100dvh - 20px);border-radius:23px}
+.visual{display:none}
+.form-side{min-height:calc(100dvh - 20px);padding:35px 24px}
+.mobile-logo{display:flex;align-items:center;gap:10px;margin-bottom:35px}
+.mobile-logo img{width:48px;height:48px;object-fit:contain}
+.mobile-logo strong{font:700 22px 'Playfair Display';color:var(--gold)}
+.lang-btn{top:25px;right:23px}
+.heading h2{font-size:31px}
+}
+@media(max-width:360px){.form-side{padding:28px 17px}.heading h2{font-size:27px}.mobile-logo{margin-bottom:27px}}
+@media(max-height:580px) and (orientation:landscape) and (max-width:950px){body{align-items:flex-start}.login{min-height:auto}.form-side{min-height:auto;padding:25px 35px}.mobile-logo{display:flex;margin-bottom:15px}.heading{margin-bottom:18px}.group{margin-bottom:11px}.secure{margin-top:14px;padding-top:12px}}
+</style>
+</head>
+
+<body>
+
+<div class="login">
+
+<section class="visual">
+    <div class="logo">
+        <img src="/bi.png" alt="Baker">
+        <strong>BAKER</strong>
+    </div>
+
+    <div class="visual-content">
+        <div class="tag"><i class="fa-solid fa-shield-halved"></i><span data-t="admin">Administration</span></div>
+        <h1><span data-t="manage1">Manage your</span><br><span data-t="manage2">appointments.</span></h1>
+        <p data-t="sideText">Secure administration area for Baker Coiffeur. Manage today's appointments and customer reservations.</p>
+    </div>
+
+    <div class="copy">© 2026 Baker Coiffeur</div>
+</section>
+
+<section class="form-side">
+
+    <div class="mobile-logo">
+        <img src="/bi.png" alt="Baker">
+        <strong>BAKER</strong>
+    </div>
+
+    <button class="lang-btn" id="openLang"><i class="fa-solid fa-globe"></i></button>
+
+    <div class="heading">
+        <small data-t="secure">Secure Access</small>
+        <h2 data-t="welcome">Welcome Back</h2>
+        <p data-t="loginText">Sign in with your administrator account.</p>
+    </div>
+
+    <form id="loginForm">
+
+        <div class="group">
+            <label data-t="email">Email Address</label>
+            <div class="input">
+                <i class="fa-regular fa-envelope"></i>
+                <input id="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" placeholder="admin@example.com" required>
+            </div>
+        </div>
+
+        <div class="group">
+            <label data-t="password">Password</label>
+            <div class="input">
+                <i class="fa-solid fa-lock"></i>
+                <input id="password" type="password" autocomplete="current-password" data-ph="passwordPlaceholder" placeholder="Enter your password" required>
+                <span class="eye" id="eye"><i class="fa-regular fa-eye"></i></span>
+            </div>
+        </div>
+
+        <label class="remember">
+            <input id="remember" type="checkbox" checked>
+            <span data-t="remember">Remember me</span>
+        </label>
+
+        <button class="submit" id="submit" type="submit"><span data-t="signIn">Sign In</span></button>
+        <div class="message" id="message"></div>
+
+    </form>
+
+
+</section>
+
+</div>
+
+<div class="modal" id="langModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3 data-t="language">Select Language</h3>
+            <button class="close" id="closeLang"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <button class="lang-option" data-lang="de">Deutsch</button>
+        <button class="lang-option" data-lang="fr">Français</button>
+        <button class="lang-option" data-lang="it">Italiano</button>
+        <button class="lang-option" data-lang="en">English</button>
+    </div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence,browserSessionPersistence}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import{getDatabase,ref,get}from"https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+const config={apiKey:"AIzaSyBB8ABfNoJ5E7Aq6XCpm48HDZGgqepbWoY",authDomain:"baker-413fd.firebaseapp.com",databaseURL:"https://baker-413fd-default-rtdb.europe-west1.firebasedatabase.app",projectId:"baker-413fd",storageBucket:"baker-413fd.firebasestorage.app",messagingSenderId:"328498351396",appId:"1:328498351396:web:44640a47e332dbb6e437b1",measurementId:"G-XT8WNPY88G"};
+
+const app=initializeApp(config),auth=getAuth(app),db=getDatabase(app);
+
+const L={
+de:{admin:"Administration",manage1:"Verwalten Sie Ihre",manage2:"Termine.",sideText:"Sicherer Administrationsbereich für Baker Coiffeur. Verwalten Sie heutige Termine und Kundenbuchungen.",secure:"Sicherer Zugang",welcome:"Willkommen zurück",loginText:"Melden Sie sich mit Ihrem Administratorkonto an.",email:"E-Mail-Adresse",password:"Passwort",passwordPlaceholder:"Passwort eingeben",remember:"Angemeldet bleiben",signIn:"Anmelden",signing:"Anmeldung...",protected:"Geschützt mit Firebase Authentication",language:"Sprache wählen",required:"Bitte E-Mail und Passwort eingeben.",invalid:"E-Mail oder Passwort ist falsch.",denied:"Dieses Konto hat keinen Administratorzugriff."},
+en:{admin:"Administration",manage1:"Manage your",manage2:"appointments.",sideText:"Secure administration area for Baker Coiffeur. Manage today's appointments and customer reservations.",secure:"Secure Access",welcome:"Welcome Back",loginText:"Sign in with your administrator account.",email:"Email Address",password:"Password",passwordPlaceholder:"Enter your password",remember:"Remember me",signIn:"Sign In",signing:"Signing In...",protected:"Protected with Firebase Authentication",language:"Select Language",required:"Please enter your email and password.",invalid:"Invalid email or password.",denied:"This account does not have administrator access."},
+fr:{admin:"Administration",manage1:"Gérez vos",manage2:"rendez-vous.",sideText:"Zone d'administration sécurisée de Baker Coiffeur. Gérez les rendez-vous du jour et les réservations.",secure:"Accès sécurisé",welcome:"Bienvenue",loginText:"Connectez-vous avec votre compte administrateur.",email:"Adresse e-mail",password:"Mot de passe",passwordPlaceholder:"Entrez votre mot de passe",remember:"Rester connecté",signIn:"Se connecter",signing:"Connexion...",protected:"Protégé par Firebase Authentication",language:"Choisir la langue",required:"Veuillez saisir votre e-mail et votre mot de passe.",invalid:"E-mail ou mot de passe incorrect.",denied:"Ce compte n'a pas accès à l'administration."},
+it:{admin:"Amministrazione",manage1:"Gestisci i tuoi",manage2:"appuntamenti.",sideText:"Area amministrativa sicura di Baker Coiffeur. Gestisci gli appuntamenti di oggi e le prenotazioni.",secure:"Accesso sicuro",welcome:"Bentornato",loginText:"Accedi con il tuo account amministratore.",email:"Indirizzo e-mail",password:"Password",passwordPlaceholder:"Inserisci la password",remember:"Ricordami",signIn:"Accedi",signing:"Accesso...",protected:"Protetto con Firebase Authentication",language:"Seleziona lingua",required:"Inserisci e-mail e password.",invalid:"E-mail o password non validi.",denied:"Questo account non dispone dell'accesso amministratore."}
+};
+
+let lang=localStorage.getItem("bakerLang")||"de",checking=true;
+const $=id=>document.getElementById(id),form=$("loginForm"),email=$("email"),password=$("password"),remember=$("remember"),submit=$("submit"),message=$("message");
+
+function t(k){return L[lang]?.[k]||L.de[k]||k}
+function setLang(v){lang=L[v]?v:"de";localStorage.setItem("bakerLang",lang);document.documentElement.lang=lang;document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t));document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));document.querySelectorAll(".lang-option").forEach(e=>e.classList.toggle("active",e.dataset.lang===lang));$("langModal").classList.remove("show")}
+function msg(text,type="error"){message.textContent=text;message.className="message "+type}
+function loading(v){submit.disabled=v;submit.innerHTML=v?`<i class="fa-solid fa-spinner fa-spin"></i> ${t("signing")}`:`<span>${t("signIn")}</span>`}
+async function isAdmin(user){const s=await get(ref(db,`admins/${user.uid}`));return s.exists()&&s.val()===true}
+
+$("openLang").onclick=()=>$("langModal").classList.add("show");
+$("closeLang").onclick=()=>$("langModal").classList.remove("show");
+$("langModal").onclick=e=>{if(e.target===$("langModal"))$("langModal").classList.remove("show")};
+document.querySelectorAll(".lang-option").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+$("eye").onclick=()=>{const show=password.type==="password";password.type=show?"text":"password";$("eye").innerHTML=`<i class="fa-regular ${show?"fa-eye-slash":"fa-eye"}"></i>`};
+
+onAuthStateChanged(auth,async user=>{if(!checking)return;checking=false;if(!user)return;try{if(await isAdmin(user))location.replace("dashboard.html");else await signOut(auth)}catch(e){console.error(e)}});
+
+form.onsubmit=async e=>{
+e.preventDefault();message.textContent="";
+if(!email.value.trim()||!password.value)return msg(t("required"));
+loading(true);checking=false;
+try{
+await setPersistence(auth,remember.checked?browserLocalPersistence:browserSessionPersistence);
+const c=await signInWithEmailAndPassword(auth,email.value.trim(),password.value);
+if(!(await isAdmin(c.user))){await signOut(auth);return msg(t("denied"))}
+location.replace("dashboard.html");
+}catch(err){console.error(err);msg(t("invalid"))}
+finally{loading(false)}
+};
+
+setLang(lang);
+</script>
+</body>
+</html>
