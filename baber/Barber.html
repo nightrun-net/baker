@@ -651,51 +651,62 @@
 
         .date-wrapper {
             position: relative;
-
+            width: 100%;
             max-width: 420px;
+            min-width: 0;
         }
 
         .date-wrapper i {
             position: absolute;
-
             left: 16px;
             top: 50%;
-
             transform: translateY(-50%);
-
             color: var(--gold);
-
             pointer-events: none;
+            z-index: 2;
         }
 
         .booking-date {
+            display: block;
             width: 100%;
-
+            max-width: 100%;
+            min-width: 0;
+            min-height: 52px;
             background: #151515;
-
             border: 1px solid #333;
-
             color: #fff;
-
-            padding: 14px 16px 14px 48px;
-
+            padding: 0 46px 0 48px;
             border-radius: 12px;
-
             outline: none;
-
-            font-size: 15px;
-
+            font-size: 16px;
+            line-height: 1.2;
             transition: 0.3s;
-
             color-scheme: dark;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .booking-date::-webkit-date-and-time-value {
+            min-height: 1.2em;
+            text-align: left;
+        }
+
+        .booking-date::-webkit-calendar-picker-indicator {
+            position: absolute;
+            right: 14px;
+            width: 22px;
+            height: 22px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            opacity: .85;
+            filter: invert(82%) sepia(29%) saturate(609%) hue-rotate(357deg) brightness(87%) contrast(88%);
         }
 
         .booking-date:hover,
         .booking-date:focus {
             border-color: var(--gold);
-
-            box-shadow:
-                0 0 0 3px rgba(211, 172, 103, 0.08);
+            box-shadow: 0 0 0 3px rgba(211, 172, 103, 0.08);
         }
 
         /* =========================
@@ -1298,6 +1309,16 @@
                 padding: 30px 15px;
             }
 
+            .date-wrapper {
+                max-width: 100%;
+            }
+
+            .booking-date {
+                width: 100%;
+                min-height: 54px;
+                font-size: 16px;
+            }
+
             .about-wrapper {
                 padding: 30px 15px;
             }
@@ -1349,6 +1370,44 @@
 
             .summary-row {
                 font-size: 12px;
+            }
+
+            .date-wrapper {
+                width: 100%;
+                max-width: none;
+            }
+
+            .booking-date {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+                min-height: 56px;
+                padding-left: 46px;
+                padding-right: 44px;
+                border-radius: 11px;
+                font-size: 16px;
+            }
+
+            .date-wrapper i {
+                left: 15px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .booking-container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .booking-date {
+                min-height: 54px;
+                padding-left: 43px;
+                padding-right: 40px;
+                font-size: 16px;
+            }
+
+            .date-wrapper i {
+                left: 14px;
             }
         }
     </style>
